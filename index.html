@@ -12,151 +12,75 @@
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .container {
-            width: 375px;  /* Standard mobile width */
-            height: 667px; /* Standard mobile height */
-            margin: 0 auto;
-            background-color: #f5f5f5;
-            position: relative;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-
         body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background-color: #333; /* Dark background around the mobile view */
+            background-color: #f5f5f5;
         }
 
         .header {
             background: white;
-            padding: 15px 20px;
+            padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            text-align: center;
         }
 
         .header h1 {
-            font-size: 24px;
-            font-weight: normal;
-            margin: 0 auto;  /* Center the text */
-        }
-
-        .header span {
-            position: absolute;
-            right: 15px;
+            font-size: 18px;
         }
 
         .commission-box {
-            background: #32CD32;
+            background: linear-gradient(to bottom, #4CD964, #32CD32);
             color: white;
-            padding: 25px 20px;
+            padding: 20px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .commission-box::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 60%);
-            pointer-events: none;
         }
 
         .amount {
-            font-size: 48px;
-            margin: 15px 0;
-            font-weight: 300;
+            font-size: 32px;
+            margin: 10px 0;
         }
 
         .subtitle {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            margin: 10px auto;
-            display: inline-block;
-            max-width: 90%;
-        }
-
-        .subtitle:last-child {
-            background: transparent;
             font-size: 12px;
             opacity: 0.9;
         }
 
         .stats-container {
             display: flex;
-            margin: 0;
-            gap: 0;
-            background: white;
-            padding: 15px;
-            border-radius: 15px 15px 0 0;
-            margin-top: -15px;
-            position: relative;
-            z-index: 1;
+            margin: 15px;
+            gap: 15px;
         }
 
         .stats-column {
             flex: 1;
-            background: transparent;
-            padding: 10px;
-            border-radius: 0;
-        }
-
-        .stats-column h3 {
-            font-size: 16px;
-            margin-bottom: 15px;
-            text-align: center;
-            color: #333;
-            font-weight: normal;
-        }
-
-        .stats-column:first-child {
-            border-right: 1px solid #eee;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
         }
 
         .stat-item {
             text-align: center;
-            margin: 15px 0;
+            margin: 10px 0;
         }
 
         .stat-value {
-            font-size: 20px;
-            font-weight: normal;
-            color: #333;
+            font-size: 18px;
+            font-weight: bold;
         }
 
         .stat-label {
             font-size: 12px;
             color: #666;
-            margin-top: 5px;
         }
 
         .invitation-button {
-            background: #32CD32;
+            background: #4CD964;
             color: white;
             padding: 15px;
             text-align: center;
             margin: 15px;
-            border-radius: 25px;
-            font-weight: normal;
-            font-size: 16px;
-            box-shadow: 0 2px 8px rgba(50, 205, 50, 0.3);
+            border-radius: 8px;
+            font-weight: bold;
         }
 
         .menu-list {
@@ -171,17 +95,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 16px;
         }
 
         .menu-item-left {
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        .menu-item span {
-            font-size: 16px;
         }
 
         .promotion-data {
@@ -192,7 +111,7 @@
         }
 
         .bottom-nav {
-            position: absolute;
+            position: fixed;
             bottom: 0;
             width: 100%;
             background: white;
@@ -200,7 +119,6 @@
             justify-content: space-around;
             padding: 10px 0;
             border-top: 1px solid #eee;
-            height: auto;
         }
 
         .nav-item {
@@ -209,157 +127,150 @@
             color: #666;
         }
 
-        .nav-item div:first-child {
-            font-size: 20px;
-            margin-bottom: 5px;
-        }
-
         .nav-item.active {
             color: #4CD964;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Agency</h1>
-            <span>🌱</span>
-        </div>
+    <div class="header">
+        <h1>Agency</h1>
+        <span>🌱</span>
+    </div>
 
-        <div class="commission-box">
-            <div class="amount">26.95</div>
-            <div class="subtitle">Yesterday's total commission</div>
-            <div class="subtitle">Upgrade the level to increase commission income</div>
-        </div>
+    <div class="commission-box">
+        <div class="amount">26.95</div>
+        <div class="subtitle">Yesterday's total commission</div>
+        <div class="subtitle">Upgrade the level to increase commission income</div>
+    </div>
 
-        <div class="stats-container">
-            <div class="stats-column">
-                <h3>Direct subordinates</h3>
-                <div class="stat-item">
-                    <div class="stat-value">0</div>
-                    <div class="stat-label">number of register</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">0</div>
-                    <div class="stat-label">Deposit number</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">0</div>
-                    <div class="stat-label">Deposit amount</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">8</div>
-                    <div class="stat-label">Number of people making first deposit</div>
-                </div>
-            </div>
-            <div class="stats-column">
-                <h3>Team subordinates</h3>
-                <div class="stat-item">
-                    <div class="stat-value">11</div>
-                    <div class="stat-label">number of register</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">40</div>
-                    <div class="stat-label">Deposit number</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">55560</div>
-                    <div class="stat-label">Deposit amount</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">8</div>
-                    <div class="stat-label">Number of people making first deposit</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="invitation-button">INVITATION LINK</div>
-
-        <div class="menu-list">
-            <div class="menu-item">
-                <div class="menu-item-left">
-                    <span>📋</span>
-                    <span>Copy invitation code</span>
-                </div>
-                <div>1784400101 📋</div>
-            </div>
-            <div class="menu-item">
-                <div class="menu-item-left">
-                    <span>📊</span>
-                    <span>Subordinate data</span>
-                </div>
-                <span>›</span>
-            </div>
-            <div class="menu-item">
-                <div class="menu-item-left">
-                    <span>💰</span>
-                    <span>Commission detail</span>
-                </div>
-                <span>›</span>
-            </div>
-            <div class="menu-item">
-                <div class="menu-item-left">
-                    <span>📜</span>
-                    <span>Invitation rules</span>
-                </div>
-                <span>›</span>
-            </div>
-            <div class="menu-item">
-                <div class="menu-item-left">
-                    <span>💬</span>
-                    <span>Agent line customer service</span>
-                </div>
-                <span>›</span>
-            </div>
-            <div class="menu-item">
-                <div class="menu-item-left">
-                    <span>📊</span>
-                    <span>Rebate ratio</span>
-                </div>
-                <span>›</span>
-            </div>
-        </div>
-
-        <div class="promotion-data">
+    <div class="stats-container">
+        <div class="stats-column">
+            <h3>Direct subordinates</h3>
             <div class="stat-item">
                 <div class="stat-value">0</div>
-                <div class="stat-label">This Week</div>
+                <div class="stat-label">number of register</div>
             </div>
             <div class="stat-item">
-                <div class="stat-value">13900.97</div>
-                <div class="stat-label">Total commission</div>
+                <div class="stat-value">0</div>
+                <div class="stat-label">Deposit number</div>
             </div>
             <div class="stat-item">
-                <div class="stat-value">347</div>
-                <div class="stat-label">direct subordinate</div>
+                <div class="stat-value">0</div>
+                <div class="stat-label">Deposit amount</div>
             </div>
             <div class="stat-item">
-                <div class="stat-value">18326</div>
-                <div class="stat-label">Total number of subordinates in the team</div>
+                <div class="stat-value">8</div>
+                <div class="stat-label">Number of people making first deposit</div>
             </div>
         </div>
+        <div class="stats-column">
+            <h3>Team subordinates</h3>
+            <div class="stat-item">
+                <div class="stat-value">11</div>
+                <div class="stat-label">number of register</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">40</div>
+                <div class="stat-label">Deposit number</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">55560</div>
+                <div class="stat-label">Deposit amount</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">8</div>
+                <div class="stat-label">Number of people making first deposit</div>
+            </div>
+        </div>
+    </div>
 
-        <div class="bottom-nav">
-            <div class="nav-item active">
-                <div>🎮</div>
-                <div>Promotion</div>
+    <div class="invitation-button">INVITATION LINK</div>
+
+    <div class="menu-list">
+        <div class="menu-item">
+            <div class="menu-item-left">
+                <span>📋</span>
+                <span>Copy invitation code</span>
             </div>
-            <div class="nav-item">
-                <div>📊</div>
-                <div>Activity</div>
+            <div>1784400101 📋</div>
+        </div>
+        <div class="menu-item">
+            <div class="menu-item-left">
+                <span>📊</span>
+                <span>Subordinate data</span>
             </div>
-            <div class="nav-item">
-                <div>🎮</div>
-                <div>Game</div>
+            <span>›</span>
+        </div>
+        <div class="menu-item">
+            <div class="menu-item-left">
+                <span>💰</span>
+                <span>Commission detail</span>
             </div>
-            <div class="nav-item">
-                <div>💰</div>
-                <div>Wallet</div>
+            <span>›</span>
+        </div>
+        <div class="menu-item">
+            <div class="menu-item-left">
+                <span>📜</span>
+                <span>Invitation rules</span>
             </div>
-            <div class="nav-item">
-                <div>👤</div>
-                <div>Account</div>
+            <span>›</span>
+        </div>
+        <div class="menu-item">
+            <div class="menu-item-left">
+                <span>💬</span>
+                <span>Agent line customer service</span>
             </div>
+            <span>›</span>
+        </div>
+        <div class="menu-item">
+            <div class="menu-item-left">
+                <span>📊</span>
+                <span>Rebate ratio</span>
+            </div>
+            <span>›</span>
+        </div>
+    </div>
+
+    <div class="promotion-data">
+        <div class="stat-item">
+            <div class="stat-value">0</div>
+            <div class="stat-label">This Week</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">13900.97</div>
+            <div class="stat-label">Total commission</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">347</div>
+            <div class="stat-label">direct subordinate</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">18326</div>
+            <div class="stat-label">Total number of subordinates in the team</div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active">
+            <div>🎮</div>
+            <div>Promotion</div>
+        </div>
+        <div class="nav-item">
+            <div>📊</div>
+            <div>Activity</div>
+        </div>
+        <div class="nav-item">
+            <div>🎮</div>
+            <div>Game</div>
+        </div>
+        <div class="nav-item">
+            <div>💰</div>
+            <div>Wallet</div>
+        </div>
+        <div class="nav-item">
+            <div>👤</div>
+            <div>Account</div>
         </div>
     </div>
 </body>
