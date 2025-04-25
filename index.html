@@ -12,10 +12,29 @@
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
-        body {
-            background-color: #f5f5f5;
+        html, body {
             margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 375px;  /* Standard mobile width */
+            height: 667px; /* Standard mobile height */
+            margin: 0 auto;
+            background-color: #f5f5f5;
             position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #333; /* Dark background around the mobile view */
         }
 
         .header {
@@ -129,7 +148,7 @@
         }
 
         .bottom-nav {
-            position: fixed;
+            position: absolute;
             bottom: 0;
             width: 100%;
             background: white;
@@ -157,144 +176,146 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Agency</h1>
-        <span>🌱</span>
-    </div>
+    <div class="container">
+        <div class="header">
+            <h1>Agency</h1>
+            <span>🌱</span>
+        </div>
 
-    <div class="commission-box">
-        <div class="amount">26.95</div>
-        <div class="subtitle">Yesterday's total commission</div>
-        <div class="subtitle">Upgrade the level to increase commission income</div>
-    </div>
+        <div class="commission-box">
+            <div class="amount">26.95</div>
+            <div class="subtitle">Yesterday's total commission</div>
+            <div class="subtitle">Upgrade the level to increase commission income</div>
+        </div>
 
-    <div class="stats-container">
-        <div class="stats-column">
-            <h3>Direct subordinates</h3>
+        <div class="stats-container">
+            <div class="stats-column">
+                <h3>Direct subordinates</h3>
+                <div class="stat-item">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">number of register</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Deposit number</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Deposit amount</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">Number of people making first deposit</div>
+                </div>
+            </div>
+            <div class="stats-column">
+                <h3>Team subordinates</h3>
+                <div class="stat-item">
+                    <div class="stat-value">11</div>
+                    <div class="stat-label">number of register</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">40</div>
+                    <div class="stat-label">Deposit number</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">55560</div>
+                    <div class="stat-label">Deposit amount</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">Number of people making first deposit</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="invitation-button">INVITATION LINK</div>
+
+        <div class="menu-list">
+            <div class="menu-item">
+                <div class="menu-item-left">
+                    <span>📋</span>
+                    <span>Copy invitation code</span>
+                </div>
+                <div>1784400101 📋</div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-item-left">
+                    <span>📊</span>
+                    <span>Subordinate data</span>
+                </div>
+                <span>›</span>
+            </div>
+            <div class="menu-item">
+                <div class="menu-item-left">
+                    <span>💰</span>
+                    <span>Commission detail</span>
+                </div>
+                <span>›</span>
+            </div>
+            <div class="menu-item">
+                <div class="menu-item-left">
+                    <span>📜</span>
+                    <span>Invitation rules</span>
+                </div>
+                <span>›</span>
+            </div>
+            <div class="menu-item">
+                <div class="menu-item-left">
+                    <span>💬</span>
+                    <span>Agent line customer service</span>
+                </div>
+                <span>›</span>
+            </div>
+            <div class="menu-item">
+                <div class="menu-item-left">
+                    <span>📊</span>
+                    <span>Rebate ratio</span>
+                </div>
+                <span>›</span>
+            </div>
+        </div>
+
+        <div class="promotion-data">
             <div class="stat-item">
                 <div class="stat-value">0</div>
-                <div class="stat-label">number of register</div>
+                <div class="stat-label">This Week</div>
             </div>
             <div class="stat-item">
-                <div class="stat-value">0</div>
-                <div class="stat-label">Deposit number</div>
+                <div class="stat-value">13900.97</div>
+                <div class="stat-label">Total commission</div>
             </div>
             <div class="stat-item">
-                <div class="stat-value">0</div>
-                <div class="stat-label">Deposit amount</div>
+                <div class="stat-value">347</div>
+                <div class="stat-label">direct subordinate</div>
             </div>
             <div class="stat-item">
-                <div class="stat-value">8</div>
-                <div class="stat-label">Number of people making first deposit</div>
+                <div class="stat-value">18326</div>
+                <div class="stat-label">Total number of subordinates in the team</div>
             </div>
         </div>
-        <div class="stats-column">
-            <h3>Team subordinates</h3>
-            <div class="stat-item">
-                <div class="stat-value">11</div>
-                <div class="stat-label">number of register</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">40</div>
-                <div class="stat-label">Deposit number</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">55560</div>
-                <div class="stat-label">Deposit amount</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">8</div>
-                <div class="stat-label">Number of people making first deposit</div>
-            </div>
-        </div>
-    </div>
 
-    <div class="invitation-button">INVITATION LINK</div>
-
-    <div class="menu-list">
-        <div class="menu-item">
-            <div class="menu-item-left">
-                <span>📋</span>
-                <span>Copy invitation code</span>
+        <div class="bottom-nav">
+            <div class="nav-item active">
+                <div>🎮</div>
+                <div>Promotion</div>
             </div>
-            <div>1784400101 📋</div>
-        </div>
-        <div class="menu-item">
-            <div class="menu-item-left">
-                <span>📊</span>
-                <span>Subordinate data</span>
+            <div class="nav-item">
+                <div>📊</div>
+                <div>Activity</div>
             </div>
-            <span>›</span>
-        </div>
-        <div class="menu-item">
-            <div class="menu-item-left">
-                <span>💰</span>
-                <span>Commission detail</span>
+            <div class="nav-item">
+                <div>🎮</div>
+                <div>Game</div>
             </div>
-            <span>›</span>
-        </div>
-        <div class="menu-item">
-            <div class="menu-item-left">
-                <span>📜</span>
-                <span>Invitation rules</span>
+            <div class="nav-item">
+                <div>💰</div>
+                <div>Wallet</div>
             </div>
-            <span>›</span>
-        </div>
-        <div class="menu-item">
-            <div class="menu-item-left">
-                <span>💬</span>
-                <span>Agent line customer service</span>
+            <div class="nav-item">
+                <div>👤</div>
+                <div>Account</div>
             </div>
-            <span>›</span>
-        </div>
-        <div class="menu-item">
-            <div class="menu-item-left">
-                <span>📊</span>
-                <span>Rebate ratio</span>
-            </div>
-            <span>›</span>
-        </div>
-    </div>
-
-    <div class="promotion-data">
-        <div class="stat-item">
-            <div class="stat-value">0</div>
-            <div class="stat-label">This Week</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-value">13900.97</div>
-            <div class="stat-label">Total commission</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-value">347</div>
-            <div class="stat-label">direct subordinate</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-value">18326</div>
-            <div class="stat-label">Total number of subordinates in the team</div>
-        </div>
-    </div>
-
-    <div class="bottom-nav">
-        <div class="nav-item active">
-            <div>🎮</div>
-            <div>Promotion</div>
-        </div>
-        <div class="nav-item">
-            <div>📊</div>
-            <div>Activity</div>
-        </div>
-        <div class="nav-item">
-            <div>🎮</div>
-            <div>Game</div>
-        </div>
-        <div class="nav-item">
-            <div>💰</div>
-            <div>Wallet</div>
-        </div>
-        <div class="nav-item">
-            <div>👤</div>
-            <div>Account</div>
         </div>
     </div>
 </body>
