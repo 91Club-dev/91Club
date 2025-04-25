@@ -39,63 +39,106 @@
 
         .header {
             background: white;
-            padding: 15px;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: auto;
+            text-align: center;
         }
 
         .header h1 {
-            font-size: 18px;
+            font-size: 24px;
+            font-weight: normal;
+            margin: 0 auto;  /* Center the text */
+        }
+
+        .header span {
+            position: absolute;
+            right: 15px;
         }
 
         .commission-box {
-            background: linear-gradient(to bottom, #4CD964, #32CD32);
+            background: #32CD32;
             color: white;
-            padding: 20px;
+            padding: 25px 20px;
             text-align: center;
-            height: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .commission-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 60%);
+            pointer-events: none;
         }
 
         .amount {
-            font-size: 32px;
-            margin: 10px 0;
+            font-size: 48px;
+            margin: 15px 0;
+            font-weight: 300;
         }
 
         .subtitle {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin: 10px auto;
+            display: inline-block;
+            max-width: 90%;
+        }
+
+        .subtitle:last-child {
+            background: transparent;
             font-size: 12px;
             opacity: 0.9;
-            margin: 5px 0;
         }
 
         .stats-container {
             display: flex;
-            margin: 15px;
-            gap: 15px;
-            height: auto;
+            margin: 0;
+            gap: 0;
+            background: white;
+            padding: 15px;
+            border-radius: 15px 15px 0 0;
+            margin-top: -15px;
+            position: relative;
+            z-index: 1;
         }
 
         .stats-column {
             flex: 1;
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
+            background: transparent;
+            padding: 10px;
+            border-radius: 0;
         }
 
         .stats-column h3 {
             font-size: 16px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #333;
+            font-weight: normal;
+        }
+
+        .stats-column:first-child {
+            border-right: 1px solid #eee;
         }
 
         .stat-item {
             text-align: center;
-            margin: 10px 0;
+            margin: 15px 0;
         }
 
         .stat-value {
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 20px;
+            font-weight: normal;
+            color: #333;
         }
 
         .stat-label {
@@ -105,14 +148,15 @@
         }
 
         .invitation-button {
-            background: #4CD964;
+            background: #32CD32;
             color: white;
             padding: 15px;
             text-align: center;
             margin: 15px;
-            border-radius: 8px;
-            font-weight: bold;
+            border-radius: 25px;
+            font-weight: normal;
             font-size: 16px;
+            box-shadow: 0 2px 8px rgba(50, 205, 50, 0.3);
         }
 
         .menu-list {
