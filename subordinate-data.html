@@ -2,390 +2,474 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Subordinate Data</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agency Dashboard</title>
     <style>
-        body {
-            background: #f5f6fa;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
         .header {
-            background: #fff;
-            padding: 16px 0;
-            text-align: center;
-            font-size: 20px;
-            font-weight: 500;
+            background: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 16px;
+        }
+
+        .commission-section {
             position: relative;
-            border-bottom: 1px solid #eee;
-        }
-        .header .back {
-            position: absolute;
-            left: 16px;
-            top: 16px;
-            font-size: 22px;
-            color: #333;
-            text-decoration: none;
-        }
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background: #fff;
-            margin: 16px;
-            border-radius: 8px;
-            padding: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-        }
-        .search-bar input {
-            border: none;
-            outline: none;
-            flex: 1;
-            font-size: 13px;
-            background: transparent;
-            padding: 8px;
-        }
-        .search-bar button {
-            background: #ff6b5a;
-            border: none;
-            color: #fff;
-            border-radius: 30%;
-            width: 38px;
-            height: 28px;
-            font-size: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .filters {
-            display: flex;
-            gap: 10px;
-            margin: 0 16px 16px 16px;
-        }
-        .filters select {
-            flex: 1;
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid #eee;
-            background: #fff;
-            font-size: 12px;
-        }
-        .stats-box {
-            background: #ff6b5a;
-            color: #fff;
-            border-radius: 14px;
-            margin: 0 16px 24px 16px;
-            padding: 16px 6px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-row-gap: 12px;
-            grid-column-gap: 0;
-            font-size: 12px;
-        }
-        .stats-box .stat {
-            text-align: center;
-        }
-        .stats-box .stat .value {
-            font-size: 15px;
-            font-weight: bold;
-        }
-        .no-data {
-            text-align: center;
-            color: #bbb;
-            margin-top: 40px;
-            font-size: 13px;
-        }
-        .no-data-img {
-            display: none;
-        }
-        .no-data-icon {
-            display: none;
-        }
-        .date-modal-overlay {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0; top: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.18);
-            justify-content: center;
-            align-items: flex-end;
-        }
-        .date-modal-overlay.active {
-            display: flex;
-        }
-        .date-modal {
             width: 100vw;
-            max-width: 500px;
-            background: #fff;
-            border-radius: 18px 18px 0 0;
-            padding: 0 0 10px 0;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            background: transparent !important;
+            padding-bottom: 0;
+            padding-top: 0;
+            z-index: 0;
+            overflow: visible;
+        }
+
+        .commission-section::after {
+            content: "";
+            position: absolute;
+            left: 0; top: 0; right: 0;
+            height: 200px;
+            background: linear-gradient(to bottom, #ff6745, #fd6a49, #ff6340);
+            z-index: 0;
+            pointer-events: none;
+            transition: height 0.2s;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .commission-section > * {
             position: relative;
+            z-index: 1;
         }
-        .date-modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 18px 10px 18px;
-            font-size: 17px;
-            font-weight: 500;
-        }
-        .date-modal-header .cancel {
-            color: #888;
-            font-size: 16px;
-            cursor: pointer;
-            font-weight: 400;
-        }
-        .date-modal-header .confirm {
-            color: #1abc1a;
-            font-size: 16px;
-            cursor: pointer;
-            font-weight: 400;
-        }
-        .date-modal-header .title {
-            color: #111a3a;
-            font-size: 18px;
-            font-weight: bold;
-            flex: 1;
+
+        .commission-box {
+            background: transparent;
+            color: white;
+            padding: 20px;
             text-align: center;
-            letter-spacing: 0.5px;
+            padding-bottom: 0;
+            z-index: 1;
+            position: relative;
         }
-        .date-picker-row {
+
+        .amount {
+            font-size: 28px;
+            margin: 10px 0;
+        }
+
+        .subtitle {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .stats-container {
+            display: flex;
+            margin: 15px;
+            gap: 15px;
+            margin-top: -40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-column {
+            flex: 1;
+            background: rgb(255, 255, 255);
+            padding: 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats-column h3 {
+            font-size: 14px;
+            background: rgb(255, 0, 0);
+            color: rgb(255, 255, 255);
+            text-align: left;
+            border-radius: 8px 8px 0 0;
+            padding: 10px 15px;
+            margin: 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            margin: 10px 0;
+            padding: 0 15px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .invitation-button {
+            background: #ff5733;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            margin: 15px auto;
+            border-radius: 40px;
+            font-weight: bold;
+            max-width: 300px;
+        }
+
+        .menu-list {
+            margin: 15px;
+        }
+
+        .menu-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 0 10px 0;
-            margin: 0 10px;
-            position: relative;
-            height: 180px;
+            font-size: 14px;
         }
-        .picker-col {
+
+        .menu-item-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .promotion-data {
+            background: white;
+            margin: 15px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .nav-item {
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .nav-item.active {
+            color: #ff5733;
+        }
+
+        .stats-container.joined-stats {
+            display: flex;
+            margin: 15px;
+            gap: 0;
+            margin-top: -40px;
+            position: relative;
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background: #fff;
+        }
+
+        .stats-container.joined-stats .stats-column {
+            border-radius: 0;
+            box-shadow: none;
+            border-right: 1px solid #f0f0f0;
+            padding: 0;
+            background: #fff;
+        }
+
+        .stats-container.joined-stats .stats-column:last-child {
+            border-right: none;
+        }
+
+        .stats-container.joined-stats .stats-column h3 {
+            border-radius: 0;
+        }
+
+        @media (max-width: 700px) {
+            .stats-container.joined-stats {
+                flex-direction: column;
+                border-radius: 8px;
+            }
+            .stats-container.joined-stats .stats-column {
+                border-right: none;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            .stats-container.joined-stats .stats-column:last-child {
+                border-bottom: none;
+            }
+        }
+
+        .subordinate-stats-card {
+            position: relative;
+            z-index: 2;
+            margin-top: -10px;
+            width: calc(96vw - 6px);
+            max-width: calc(430px - 6px);
+            margin: 18px auto 0 auto;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: none;
+            border: none;
+        }
+
+        .subordinate-stats-header {
+            display: flex;
+            background: #e04a2a;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .subordinate-stats-header .header-col {
+            flex: 1;
+            padding: 10px 0;
+            border-right: 1px solid #fff3;
+        }
+
+        .subordinate-stats-header .header-col:last-child {
+            border-right: none;
+        }
+
+        .subordinate-stats-body {
+            display: flex;
+            background: #fff;
+        }
+
+        .stats-col {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-y: scroll;
-            height: 140px;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            position: relative;
+            padding: 10px 0 8px 0;
+            font-size: 13px;
         }
-        .picker-col::-webkit-scrollbar {
-            display: none;
-        }
-        .picker-item {
-            font-size: 20px;
-            color: #b0b0b0;
-            padding: 7px 0;
-            text-align: center;
-            min-height: 32px;
-            transition: color 0.15s, font-weight 0.15s;
-            font-weight: 400;
-            user-select: none;
-        }
-        .picker-item.selected {
-            color: #222;
+
+        .stat-main {
+            font-size: 17px;
             font-weight: bold;
-            font-size: 22px;
-            background: #f7f7f7;
-            border-radius: 8px;
+            margin-top: 7px;
+            margin-bottom: 0;
+            color: #222 !important;
         }
-        .picker-col:not(:last-child) {
-            border-right: 1px solid #f2f2f2;
+
+        .stat-main.green {
+            color: #222 !important;
         }
-        .picker-highlight {
-            position: absolute;
-            left: 0; right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            height: 32px;
-            background: rgba(0,0,0,0.03);
-            border-radius: 8px;
-            pointer-events: none;
-            z-index: 2;
+
+        .stat-main.orange {
+            color: #222 !important;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #222;
+            margin-bottom: 0;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        @media (max-width: 500px) {
+            .subordinate-stats-card {
+                width: calc(98vw - 6px);
+                max-width: calc(100vw - 6px);
+                margin: 12px 1vw 0 1vw;
+            }
+            .subordinate-stats-header {
+                font-size: 15px;
+            }
+            .stat-main {
+                font-size: 15px;
+            }
+            .stat-label {
+                font-size: 11px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <a href="index.html" class="back">&#8592;</a>
-        Subordinate data
-    </div>
-    <div class="search-bar">
-        <input type="text" placeholder="Search subordinate UID">
-        <button aria-label="Search">
-            <svg width="15" height="15" viewBox="0 0 20 20" fill="white" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="9" cy="9" r="7" stroke="white" stroke-width="2" fill="none"/>
-                <line x1="14" y1="14" x2="19" y2="19" stroke="white" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-        </button>
-    </div>
-    <div class="filters">
-        <select>
-            <option>All</option>
-        </select>
-        <div id="date-select" style="flex:1;position:relative;">
-            <button id="openDateModal" style="width:100%;padding:8px 0;border-radius:6px;border:1px solid #eee;background:#fff;font-size:12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;">
-                <span id="selectedDate">2025-04-25</span>
-                <span style="font-size:14px;margin-left:6px;">&#9662;</span>
-            </button>
-        </div>
-    </div>
-    <div class="stats-box" id="statsBox">
-        <div class="stat">
-            <div class="value" id="depositNumber">0</div>
-            <div>Deposit number</div>
-        </div>
-        <div class="stat">
-            <div class="value" id="depositAmount">0</div>
-            <div>Deposit amount</div>
-        </div>
-        <div class="stat">
-            <div class="value" id="numBettors">0</div>
-            <div>Number of bettors</div>
-        </div>
-        <div class="stat">
-            <div class="value" id="totalBet">0</div>
-            <div>Total bet</div>
-        </div>
-        <div class="stat">
-            <div class="value" id="numFirstDeposit">0</div>
-            <div>Number of people making first deposit</div>
-        </div>
-        <div class="stat">
-            <div class="value" id="firstDepositAmount">0</div>
-            <div>First deposit amount</div>
-        </div>
-    </div>
-    <div class="no-data" id="noData">
-        No data
+        <h1>Agency</h1>
+        <span>🌱</span>
     </div>
 
-    <!-- Date Picker Modal -->
-    <div class="date-modal-overlay" id="dateModalOverlay">
-        <div class="date-modal">
-            <div class="date-modal-header">
-                <span class="cancel" id="cancelDate">Cancel</span>
-                <span class="title">Choose a date</span>
-                <span class="confirm" id="confirmDate">Confirm</span>
+    <div class="commission-section" id="commissionSection">
+        <div class="commission-box">
+            <div class="amount">26.95</div>
+            <div class="subtitle">Yesterday's total commission</div>
+            <div class="subtitle">Upgrade the level to increase commission income</div>
+        </div>
+        <div class="subordinate-stats-card" id="subordinateStatsCard">
+            <div class="subordinate-stats-header">
+                <div class="header-col">Direct</div>
+                <div class="header-col">Team subordinates</div>
             </div>
-            <div class="date-picker-row">
-                <div class="picker-col" id="yearCol"></div>
-                <div class="picker-col" id="monthCol"></div>
-                <div class="picker-col" id="dayCol"></div>
-                <div class="picker-highlight"></div>
+            <div class="subordinate-stats-body">
+                <div class="stats-col">
+                    <div class="stat-main">0</div>
+                    <div class="stat-label">number of register</div>
+                    <div class="stat-main green">0</div>
+                    <div class="stat-label">Deposit number</div>
+                    <div class="stat-main orange">0</div>
+                    <div class="stat-label">Deposit amount</div>
+                    <div class="stat-main">0</div>
+                    <div class="stat-label">Number of people making<br>first deposit</div>
+                </div>
+                <div class="stats-col">
+                    <div class="stat-main">0</div>
+                    <div class="stat-label">number of register</div>
+                    <div class="stat-main green">0</div>
+                    <div class="stat-label">Deposit number</div>
+                    <div class="stat-main orange">0</div>
+                    <div class="stat-label">Deposit amount</div>
+                    <div class="stat-main">0</div>
+                    <div class="stat-label">Number of people making<br>first deposit</div>
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="invitation-button">INVITATION LINK</div>
+
+    <div class="menu-list">
+        <div class="menu-item">
+            <div class="menu-item-left">
+                <span>📋</span>
+                <span>Copy invitation code</span>
+            </div>
+            <div>1784400101 📋</div>
+        </div>
+        <div class="menu-item">
+            <div class="menu-item-left">
+                <span>📊</span>
+                <span>Subordinate data</span>
+            </div>
+            <a href="subordinate-data.html" style="text-decoration:none;color:inherit;"><span>›</span></a>
+        </div>
+        <div class="menu-item">
+            <div class="menu-item-left">
+                <span>💰</span>
+                <span>Commission detail</span>
+            </div>
+            <span>›</span>
+        </div>
+        <div class="menu-item">
+            <div class="menu-item-left">
+                <span>📜</span>
+                <span>Invitation rules</span>
+            </div>
+            <span>›</span>
+        </div>
+        <div class="menu-item">
+            <div class="menu-item-left">
+                <span>💬</span>
+                <span>Agent line customer service</span>
+            </div>
+            <span>›</span>
+        </div>
+        <div class="menu-item">
+            <div class="menu-item-left">
+                <span>📊</span>
+                <span>Rebate ratio</span>
+            </div>
+            <span>›</span>
+        </div>
+    </div>
+
+    <div class="promotion-data">
+        <div class="stat-item">
+            <div class="stat-value">0</div>
+            <div class="stat-label">This Week</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">13900.97</div>
+            <div class="stat-label">Total commission</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">347</div>
+            <div class="stat-label">direct subordinate</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">18326</div>
+            <div class="stat-label">Total number of subordinates in the team</div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active">
+            <div>🎮</div>
+            <div>Promotion</div>
+        </div>
+        <div class="nav-item">
+            <div>📊</div>
+            <div>Activity</div>
+        </div>
+        <div class="nav-item">
+            <div>🎮</div>
+            <div>Game</div>
+        </div>
+        <div class="nav-item">
+            <div>💰</div>
+            <div>Wallet</div>
+        </div>
+        <div class="nav-item">
+            <div>👤</div>
+            <div>Account</div>
+        </div>
+    </div>
+
     <script>
-        // --- Date Picker Logic ---
-        const openDateModal = document.getElementById('openDateModal');
-        const dateModalOverlay = document.getElementById('dateModalOverlay');
-        const cancelDate = document.getElementById('cancelDate');
-        const confirmDate = document.getElementById('confirmDate');
-        const selectedDateSpan = document.getElementById('selectedDate');
-        const yearCol = document.getElementById('yearCol');
-        const monthCol = document.getElementById('monthCol');
-        const dayCol = document.getElementById('dayCol');
-
-        let pickerState = { year: 2025, month: 4, day: 25 };
-
-        function pad(n) { return n.toString().padStart(2, '0'); }
-
-        function fillPickerCol(col, arr, selected) {
-            col.innerHTML = '';
-            arr.forEach(val => {
-                const div = document.createElement('div');
-                div.className = 'picker-item' + (val == selected ? ' selected' : '');
-                div.textContent = val;
-                div.dataset.value = val;
-                col.appendChild(div);
-            });
-        }
-
-        function scrollToSelected(col) {
-            const sel = col.querySelector('.selected');
-            if (sel) {
-                col.scrollTop = sel.offsetTop - col.clientHeight/2 + sel.clientHeight/2;
+        window.addEventListener('DOMContentLoaded', function() {
+            var card = document.getElementById('subordinateStatsCard');
+            var section = document.getElementById('commissionSection');
+            if (card && section) {
+                var cardRect = card.getBoundingClientRect();
+                var commissionBox = section.querySelector('.commission-box');
+                var commissionBoxHeight = commissionBox ? commissionBox.getBoundingClientRect().height : 0;
+                var gradientHeight = commissionBoxHeight + cardRect.height / 3;
+                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
+                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
+                section.querySelector(':scope').style = '';
+                section.style = '';
+                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
+                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
+                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
+                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
+                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
+                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
+                var styleSheet = document.createElement("style");
+                styleSheet.innerText = ".commission-section::after { height: " + gradientHeight + "px !important; }";
+                document.head.appendChild(styleSheet);
             }
-        }
-
-        function updatePickerCols() {
-            // Years
-            let years = [];
-            for(let y=2022; y<=2025; y++) years.push(y);
-            fillPickerCol(yearCol, years, pickerState.year);
-
-            // Months
-            let months = [];
-            for(let m=1; m<=12; m++) months.push(pad(m));
-            fillPickerCol(monthCol, months, pad(pickerState.month));
-
-            // Days
-            let daysInMonth = new Date(pickerState.year, pickerState.month, 0).getDate();
-            let days = [];
-            for(let d=1; d<=daysInMonth; d++) days.push(pad(d));
-            fillPickerCol(dayCol, days, pad(pickerState.day));
-
-            setTimeout(() => {
-                scrollToSelected(yearCol);
-                scrollToSelected(monthCol);
-                scrollToSelected(dayCol);
-            }, 10);
-        }
-
-        function handlePickerClick(col, key) {
-            col.addEventListener('click', e => {
-                if (e.target.classList.contains('picker-item')) {
-                    pickerState[key] = parseInt(e.target.dataset.value);
-                    updatePickerCols();
-                }
-            });
-            col.addEventListener('scroll', () => {
-                // Snap to closest item on scroll end
-                clearTimeout(col._scrollTimeout);
-                col._scrollTimeout = setTimeout(() => {
-                    let items = Array.from(col.children);
-                    let closest = items.reduce((a, b) => {
-                        return Math.abs(a.offsetTop - col.scrollTop - col.clientHeight/2 + a.clientHeight/2) <
-                               Math.abs(b.offsetTop - col.scrollTop - col.clientHeight/2 + b.clientHeight/2) ? a : b;
-                    });
-                    pickerState[key] = parseInt(closest.dataset.value);
-                    updatePickerCols();
-                }, 100);
-            });
-        }
-
-        handlePickerClick(yearCol, 'year');
-        handlePickerClick(monthCol, 'month');
-        handlePickerClick(dayCol, 'day');
-
-        openDateModal.onclick = function() {
-            // Set pickerState to current date
-            const [y, m, d] = selectedDateSpan.textContent.split('-');
-            pickerState.year = parseInt(y);
-            pickerState.month = parseInt(m);
-            pickerState.day = parseInt(d);
-            updatePickerCols();
-            dateModalOverlay.classList.add('active');
-        };
-        cancelDate.onclick = function() {
-            dateModalOverlay.classList.remove('active');
-        };
-        confirmDate.onclick = function() {
-            const y = pickerState.year, m = pad(pickerState.month), d = pad(pickerState.day);
-            const dateStr = `${y}-${m}-${d}`;
-            selectedDateSpan.textContent = dateStr;
-            dateModalOverlay.classList.remove('active');
-            // Update stats (all zero for now)
-            document.getElementById('depositNumber').textContent = 0;
-            document.getElementById('depositAmount').textContent = 0;
-            document.getElementById('numBettors').textContent = 0;
-            document.getElementById('totalBet').textContent = 0;
-            document.getElementById('numFirstDeposit').textContent = 0;
-            document.getElementById('firstDepositAmount').textContent = 0;
-            document.getElementById('noData').style.display = '';
-        };
+        });
     </script>
 </body>
 </html> 
