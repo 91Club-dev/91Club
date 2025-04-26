@@ -292,6 +292,26 @@
 
         let pickerState = { year: 2025, month: 4, day: 25 };
 
+        // Data for specific dates
+        const statsData = {
+            "2025-04-25": {
+                depositNumber: 104,
+                depositAmount: 18380,
+                numBettors: 161,
+                totalBet: 116207,
+                numFirstDeposit: 84,
+                firstDepositAmount: 129730
+            },
+            "2025-04-24": {
+                depositNumber: 145,
+                depositAmount: 25828,
+                numBettors: 201,
+                totalBet: 128273,
+                numFirstDeposit: 91,
+                firstDepositAmount: 15729
+            }
+        };
+
         function pad(n) { return n.toString().padStart(2, '0'); }
 
         function fillPickerCol(col, arr, selected) {
@@ -396,13 +416,14 @@
             const dateStr = `${y}-${m}-${d}`;
             selectedDateSpan.textContent = dateStr;
             dateModalOverlay.classList.remove('active');
-            // Update stats (all zero for now)
-            document.getElementById('depositNumber').textContent = 0;
-            document.getElementById('depositAmount').textContent = 0;
-            document.getElementById('numBettors').textContent = 0;
-            document.getElementById('totalBet').textContent = 0;
-            document.getElementById('numFirstDeposit').textContent = 0;
-            document.getElementById('firstDepositAmount').textContent = 0;
+            // Update stats based on selected date
+            const data = statsData[dateStr];
+            document.getElementById('depositNumber').textContent = data ? data.depositNumber : 0;
+            document.getElementById('depositAmount').textContent = data ? data.depositAmount : 0;
+            document.getElementById('numBettors').textContent = data ? data.numBettors : 0;
+            document.getElementById('totalBet').textContent = data ? data.totalBet : 0;
+            document.getElementById('numFirstDeposit').textContent = data ? data.numFirstDeposit : 0;
+            document.getElementById('firstDepositAmount').textContent = data ? data.firstDepositAmount : 0;
             document.getElementById('noData').style.display = '';
         };
     </script>
