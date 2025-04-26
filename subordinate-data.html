@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subordinate Data</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: #f5f6fa;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background: #fff;
+            padding: 16px 0;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 500;
+            position: relative;
+            border-bottom: 1px solid #eee;
+        }
+        .header .back {
+            position: absolute;
+            left: 16px;
+            top: 16px;
+            font-size: 22px;
+            color: #333;
+            text-decoration: none;
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            margin: 16px;
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 15px;
+            background: transparent;
+            padding: 8px;
+        }
+        .search-bar button {
+            background: #ff6b5a;
+            border: none;
+            color: #fff;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin: 0 16px 16px 16px;
+        }
+        .filters select {
+            flex: 1;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #eee;
+            background: #fff;
+            font-size: 14px;
+        }
+        .stats-box {
+            background: #ff6b5a;
+            color: #fff;
+            border-radius: 14px;
+            margin: 0 16px 24px 16px;
+            padding: 20px 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-row-gap: 18px;
+            grid-column-gap: 0;
+            font-size: 15px;
+        }
+        .stats-box .stat {
+            text-align: center;
+        }
+        .stats-box .stat .value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .no-data {
+            text-align: center;
+            color: #bbb;
+            margin-top: 40px;
+        }
+        .no-data-img {
+            margin: 0 auto 10px auto;
+            width: 120px;
+            height: 80px;
+            background: url('https://img.icons8.com/ios/100/cccccc/no-data.png') no-repeat center/contain;
+        }
+        .no-data-icon {
+            margin: 20px auto 0 auto;
+            width: 48px;
+            height: 48px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .no-data-icon span {
+            font-size: 32px;
+            color: #ff6b5a;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" class="back">&#8592;</a>
+        Subordinate data
+    </div>
+    <div class="search-bar">
+        <input type="text" placeholder="Search subordinate UID">
+        <button>&#128269;</button>
+    </div>
+    <div class="filters">
+        <select>
+            <option>All</option>
+        </select>
+        <select>
+            <option>2025-04-25</option>
+        </select>
+    </div>
+    <div class="stats-box">
+        <div class="stat">
+            <div class="value">0</div>
+            <div>Deposit number</div>
+        </div>
+        <div class="stat">
+            <div class="value">0</div>
+            <div>Deposit amount</div>
+        </div>
+        <div class="stat">
+            <div class="value">0</div>
+            <div>Number of bettors</div>
+        </div>
+        <div class="stat">
+            <div class="value">0</div>
+            <div>Total bet</div>
+        </div>
+        <div class="stat">
+            <div class="value">0</div>
+            <div>Number of people making first deposit</div>
+        </div>
+        <div class="stat">
+            <div class="value">0</div>
+            <div>First deposit amount</div>
+        </div>
+    </div>
+    <div class="no-data">
+        <div class="no-data-img"></div>
+        No data
+        <div class="no-data-icon"><span>🧑‍🤝‍🧑</span></div>
+    </div>
+</body>
+</html> 
