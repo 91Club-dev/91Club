@@ -313,6 +313,20 @@
                 font-size: 11px;
             }
         }
+
+        .stats-box .stat .value.deposit-number {
+            color: #00c853 !important; /* green */
+        }
+        .stats-box .stat .value.deposit-amount {
+            color: #ffd600 !important; /* yellow */
+        }
+
+        .stat-main.deposit-number {
+            color: #00c853 !important; /* green */
+        }
+        .stat-main.deposit-amount {
+            color: #ffd600 !important; /* yellow */
+        }
     </style>
 </head>
 <body>
@@ -336,9 +350,9 @@
                 <div class="stats-col">
                     <div class="stat-main">0</div>
                     <div class="stat-label">number of register</div>
-                    <div class="stat-main green">0</div>
+                    <div class="stat-main deposit-number">0</div>
                     <div class="stat-label">Deposit number</div>
-                    <div class="stat-main orange">0</div>
+                    <div class="stat-main deposit-amount">0</div>
                     <div class="stat-label">Deposit amount</div>
                     <div class="stat-main">0</div>
                     <div class="stat-label">Number of people making<br>first deposit</div>
@@ -346,9 +360,9 @@
                 <div class="stats-col">
                     <div class="stat-main">0</div>
                     <div class="stat-label">number of register</div>
-                    <div class="stat-main green">0</div>
+                    <div class="stat-main deposit-number">0</div>
                     <div class="stat-label">Deposit number</div>
-                    <div class="stat-main orange">0</div>
+                    <div class="stat-main deposit-amount">0</div>
                     <div class="stat-label">Deposit amount</div>
                     <div class="stat-main">0</div>
                     <div class="stat-label">Number of people making<br>first deposit</div>
@@ -472,6 +486,9 @@
                 document.head.appendChild(styleSheet);
             }
         });
+
+        document.getElementById('depositNumber').className = 'value deposit-number';
+        document.getElementById('depositAmount').className = 'value deposit-amount';
     </script>
 </body>
 </html> 
