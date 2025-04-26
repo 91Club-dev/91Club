@@ -97,7 +97,7 @@
             margin: 15px auto;
             border-radius: 40px;
             font-weight: bold;
-            max-width: 300px;
+            max-width: 1000px;
         }
 
         .menu-list {
@@ -148,6 +148,49 @@
         .nav-item.active {
             color: #ff5733;
         }
+
+        .stats-container.joined-stats {
+            display: flex;
+            margin: 15px;
+            gap: 0;
+            margin-top: -40px;
+            position: relative;
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background: #fff;
+        }
+
+        .stats-container.joined-stats .stats-column {
+            border-radius: 0;
+            box-shadow: none;
+            border-right: 1px solid #f0f0f0;
+            padding: 0;
+            background: #fff;
+        }
+
+        .stats-container.joined-stats .stats-column:last-child {
+            border-right: none;
+        }
+
+        .stats-container.joined-stats .stats-column h3 {
+            border-radius: 0;
+        }
+
+        @media (max-width: 700px) {
+            .stats-container.joined-stats {
+                flex-direction: column;
+                border-radius: 8px;
+            }
+            .stats-container.joined-stats .stats-column {
+                border-right: none;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            .stats-container.joined-stats .stats-column:last-child {
+                border-bottom: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -162,7 +205,7 @@
         <div class="subtitle">Upgrade the level to increase commission income</div>
     </div>
 
-    <div class="stats-container">
+    <div class="stats-container joined-stats">
         <div class="stats-column">
             <h3>Direct subordinates</h3>
             <div class="stat-item">
@@ -218,7 +261,7 @@
                 <span>📊</span>
                 <span>Subordinate data</span>
             </div>
-            <span>›</span>
+            <a href="subordinate-data.html" style="text-decoration:none;color:inherit;"><span>›</span></a>
         </div>
         <div class="menu-item">
             <div class="menu-item-left">
