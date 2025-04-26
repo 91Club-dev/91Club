@@ -102,6 +102,69 @@
         .no-data-icon {
             display: none;
         }
+        .date-modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.18);
+            justify-content: center;
+            align-items: flex-end;
+        }
+        .date-modal-overlay.active {
+            display: flex;
+        }
+        .date-modal {
+            width: 100vw;
+            max-width: 500px;
+            background: #fff;
+            border-radius: 18px 18px 0 0;
+            box-shadow: 0 0 16px rgba(0,0,0,0.08);
+            padding: 0 0 10px 0;
+            position: relative;
+            animation: slideUp .2s;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100%);}
+            to { transform: translateY(0);}
+        }
+        .date-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 18px 10px 18px;
+            font-size: 17px;
+            font-weight: 500;
+        }
+        .date-modal-header .cancel {
+            color: #888;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        .date-modal-header .confirm {
+            color: #1abc1a;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        .date-modal-header .title {
+            color: #111;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .date-picker-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 18px 10px 18px;
+        }
+        .date-picker-row select {
+            font-size: 18px;
+            padding: 6px 8px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            background: #f7f7f7;
+            margin: 0 2px;
+        }
     </style>
 </head>
 <body>
@@ -122,38 +185,128 @@
         <select>
             <option>All</option>
         </select>
-        <select>
-            <option>2025-04-25</option>
-        </select>
+        <div id="date-select" style="flex:1;position:relative;">
+            <button id="openDateModal" style="width:100%;padding:8px 0;border-radius:6px;border:1px solid #eee;background:#fff;font-size:12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;">
+                <span id="selectedDate">2025-04-25</span>
+                <span style="font-size:14px;margin-left:6px;">&#9662;</span>
+            </button>
+        </div>
     </div>
-    <div class="stats-box">
+    <div class="stats-box" id="statsBox">
         <div class="stat">
-            <div class="value">0</div>
+            <div class="value" id="depositNumber">0</div>
             <div>Deposit number</div>
         </div>
         <div class="stat">
-            <div class="value">0</div>
+            <div class="value" id="depositAmount">0</div>
             <div>Deposit amount</div>
         </div>
         <div class="stat">
-            <div class="value">0</div>
+            <div class="value" id="numBettors">0</div>
             <div>Number of bettors</div>
         </div>
         <div class="stat">
-            <div class="value">0</div>
+            <div class="value" id="totalBet">0</div>
             <div>Total bet</div>
         </div>
         <div class="stat">
-            <div class="value">0</div>
+            <div class="value" id="numFirstDeposit">0</div>
             <div>Number of people making first deposit</div>
         </div>
         <div class="stat">
-            <div class="value">0</div>
+            <div class="value" id="firstDepositAmount">0</div>
             <div>First deposit amount</div>
         </div>
     </div>
-    <div class="no-data">
+    <div class="no-data" id="noData">
         No data
     </div>
+
+    <!-- Date Picker Modal -->
+    <div class="date-modal-overlay" id="dateModalOverlay">
+        <div class="date-modal">
+            <div class="date-modal-header">
+                <span class="cancel" id="cancelDate">Cancel</span>
+                <span class="title">Choose a date</span>
+                <span class="confirm" id="confirmDate">Confirm</span>
+            </div>
+            <div class="date-picker-row">
+                <select id="year"></select>
+                <select id="month"></select>
+                <select id="day"></select>
+            </div>
+        </div>
+    </div>
+    <script>
+        // --- Date Picker Logic ---
+        const openDateModal = document.getElementById('openDateModal');
+        const dateModalOverlay = document.getElementById('dateModalOverlay');
+        const cancelDate = document.getElementById('cancelDate');
+        const confirmDate = document.getElementById('confirmDate');
+        const yearSel = document.getElementById('year');
+        const monthSel = document.getElementById('month');
+        const daySel = document.getElementById('day');
+        const selectedDateSpan = document.getElementById('selectedDate');
+
+        // Fill years, months, days
+        function fillDateOptions() {
+            const now = new Date();
+            yearSel.innerHTML = '';
+            for(let y=2022; y<=2025; y++) {
+                yearSel.innerHTML += `<option value="${y}">${y}</option>`;
+            }
+            monthSel.innerHTML = '';
+            for(let m=1; m<=12; m++) {
+                monthSel.innerHTML += `<option value="${String(m).padStart(2,'0')}">${String(m).padStart(2,'0')}</option>`;
+            }
+            updateDays();
+        }
+        function updateDays() {
+            const year = parseInt(yearSel.value);
+            const month = parseInt(monthSel.value);
+            const daysInMonth = new Date(year, month, 0).getDate();
+            const prevDay = daySel.value;
+            daySel.innerHTML = '';
+            for(let d=1; d<=daysInMonth; d++) {
+                daySel.innerHTML += `<option value="${String(d).padStart(2,'0')}">${String(d).padStart(2,'0')}</option>`;
+            }
+            if(prevDay && daySel.querySelector(`option[value="${prevDay}"]`)) {
+                daySel.value = prevDay;
+            }
+        }
+        yearSel && yearSel.addEventListener('change', updateDays);
+        monthSel && monthSel.addEventListener('change', updateDays);
+
+        // Open modal
+        openDateModal.onclick = function() {
+            fillDateOptions();
+            // Set selects to current date
+            const [y, m, d] = selectedDateSpan.textContent.split('-');
+            yearSel.value = y;
+            monthSel.value = m;
+            updateDays();
+            daySel.value = d;
+            dateModalOverlay.classList.add('active');
+        };
+        // Cancel
+        cancelDate.onclick = function() {
+            dateModalOverlay.classList.remove('active');
+        };
+        // Confirm
+        confirmDate.onclick = function() {
+            const y = yearSel.value, m = monthSel.value, d = daySel.value;
+            const dateStr = `${y}-${m}-${d}`;
+            selectedDateSpan.textContent = dateStr;
+            dateModalOverlay.classList.remove('active');
+            // Update stats (all zero for now)
+            document.getElementById('depositNumber').textContent = 0;
+            document.getElementById('depositAmount').textContent = 0;
+            document.getElementById('numBettors').textContent = 0;
+            document.getElementById('totalBet').textContent = 0;
+            document.getElementById('numFirstDeposit').textContent = 0;
+            document.getElementById('firstDepositAmount').textContent = 0;
+            document.getElementById('noData').style.display = '';
+        };
+    </script>
 </body>
 </html> 
