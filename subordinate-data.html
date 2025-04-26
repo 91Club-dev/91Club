@@ -32,9 +32,9 @@
             display: flex;
             align-items: center;
             background: #fff;
-            margin: 16px;
+            margin: 10px 12px 8px 12px;
             border-radius: 8px;
-            padding: 8px;
+            padding: 6px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.03);
         }
         .search-bar input {
@@ -60,8 +60,8 @@
         }
         .filters {
             display: flex;
-            gap: 10px;
-            margin: 0 16px 16px 16px;
+            gap: 8px;
+            margin: 0 12px 10px 12px;
         }
         .filters select {
             flex: 1;
@@ -74,27 +74,33 @@
         .stats-box {
             background: #ff6b5a;
             color: #fff;
-            border-radius: 14px;
-            margin: 0 16px 24px 16px;
-            padding: 32px 6px;
+            border-radius: 12px;
+            margin: 0 12px 16px 12px;
+            padding: 20px 4px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            grid-row-gap: 24px;
+            grid-row-gap: 16px;
             grid-column-gap: 0;
-            font-size: 12px;
-            min-height: 220px;
+            font-size: 11.5px;
+            min-height: 160px;
         }
         .stats-box .stat {
             text-align: center;
         }
         .stats-box .stat .value {
-            font-size: 15px;
+            font-size: 13px;
             font-weight: bold;
+        }
+        .stats-box .stat .value.deposit-number {
+            color: #fff !important;
+        }
+        .stats-box .stat .value.deposit-amount {
+            color: #fff !important;
         }
         .no-data {
             text-align: center;
             color: #bbb;
-            margin-top: 40px;
+            margin-top: 32px;
             font-size: 13px;
         }
         .no-data-img {
@@ -206,6 +212,20 @@
             pointer-events: none;
             z-index: 2;
         }
+        .loading-spinner {
+            display: none;
+            margin: 12px auto 0 auto;
+            width: 22px;
+            height: 22px;
+            border: 3px solid #e0e0e0;
+            border-top: 3px solid #bdbdbd;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg);}
+            100% { transform: rotate(360deg);}
+        }
     </style>
 </head>
 <body>
@@ -235,11 +255,11 @@
     </div>
     <div class="stats-box" id="statsBox">
         <div class="stat">
-            <div class="value" id="depositNumber">0</div>
+            <div class="value deposit-number" id="depositNumber">0</div>
             <div>Deposit number</div>
         </div>
         <div class="stat">
-            <div class="value" id="depositAmount">0</div>
+            <div class="value deposit-amount" id="depositAmount">0</div>
             <div>Deposit amount</div>
         </div>
         <div class="stat">
@@ -259,6 +279,7 @@
             <div>First deposit amount</div>
         </div>
     </div>
+    <div class="loading-spinner" id="loadingSpinner"></div>
     <div class="no-data" id="noData">
         No data
     </div>
@@ -292,7 +313,7 @@
 
         let pickerState = { year: 2025, month: 4, day: 25 };
 
-        // Data for specific dates
+        // Data for specific dates (UPDATED)
         const statsData = {
             "2025-04-25": {
                 depositNumber: 104,
@@ -309,6 +330,38 @@
                 totalBet: 128273,
                 numFirstDeposit: 91,
                 firstDepositAmount: 15729
+            },
+            "2025-04-23": {
+                depositNumber: 98,
+                depositAmount: 15629,
+                numBettors: 140,
+                totalBet: 64282,
+                numFirstDeposit: 75,
+                firstDepositAmount: 9297
+            },
+            "2025-04-22": {
+                depositNumber: 195,
+                depositAmount: 43829,
+                numBettors: 254,
+                totalBet: 72894,
+                numFirstDeposit: 152,
+                firstDepositAmount: 36292
+            },
+            "2025-04-21": {
+                depositNumber: 79,
+                depositAmount: 13739,
+                numBettors: 103,
+                totalBet: 38283,
+                numFirstDeposit: 65,
+                firstDepositAmount: 8273
+            },
+            "2025-04-20": {
+                depositNumber: 128,
+                depositAmount: 23273,
+                numBettors: 163,
+                totalBet: 42683,
+                numFirstDeposit: 102,
+                firstDepositAmount: 19729
             }
         };
 
@@ -411,20 +464,58 @@
         cancelDate.onclick = function() {
             dateModalOverlay.classList.remove('active');
         };
+        let lastStats = {
+            depositNumber: 0,
+            depositAmount: 0,
+            numBettors: 0,
+            totalBet: 0,
+            numFirstDeposit: 0,
+            firstDepositAmount: 0
+        };
+
+        function updateStatsBox(data) {
+            document.getElementById('depositNumber').textContent = data.depositNumber;
+            document.getElementById('depositAmount').textContent = data.depositAmount;
+            document.getElementById('numBettors').textContent = data.numBettors;
+            document.getElementById('totalBet').textContent = data.totalBet;
+            document.getElementById('numFirstDeposit').textContent = data.numFirstDeposit;
+            document.getElementById('firstDepositAmount').textContent = data.firstDepositAmount;
+        }
+
         confirmDate.onclick = function() {
             const y = pickerState.year, m = pad(pickerState.month), d = pad(pickerState.day);
             const dateStr = `${y}-${m}-${d}`;
             selectedDateSpan.textContent = dateStr;
             dateModalOverlay.classList.remove('active');
-            // Update stats based on selected date
-            const data = statsData[dateStr];
-            document.getElementById('depositNumber').textContent = data ? data.depositNumber : 0;
-            document.getElementById('depositAmount').textContent = data ? data.depositAmount : 0;
-            document.getElementById('numBettors').textContent = data ? data.numBettors : 0;
-            document.getElementById('totalBet').textContent = data ? data.totalBet : 0;
-            document.getElementById('numFirstDeposit').textContent = data ? data.numFirstDeposit : 0;
-            document.getElementById('firstDepositAmount').textContent = data ? data.firstDepositAmount : 0;
-            document.getElementById('noData').style.display = '';
+
+            // Show loading spinner
+            const spinner = document.getElementById('loadingSpinner');
+            spinner.style.display = 'block';
+
+            // Save current stats
+            lastStats = {
+                depositNumber: document.getElementById('depositNumber').textContent,
+                depositAmount: document.getElementById('depositAmount').textContent,
+                numBettors: document.getElementById('numBettors').textContent,
+                totalBet: document.getElementById('totalBet').textContent,
+                numFirstDeposit: document.getElementById('numFirstDeposit').textContent,
+                firstDepositAmount: document.getElementById('firstDepositAmount').textContent
+            };
+
+            // Keep previous data for 0.1s, then update
+            setTimeout(() => {
+                const data = statsData[dateStr] || {
+                    depositNumber: 0,
+                    depositAmount: 0,
+                    numBettors: 0,
+                    totalBet: 0,
+                    numFirstDeposit: 0,
+                    firstDepositAmount: 0
+                };
+                updateStatsBox(data);
+                spinner.style.display = 'none';
+                document.getElementById('noData').style.display = '';
+            }, 100);
         };
     </script>
 </body>
