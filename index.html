@@ -28,12 +28,46 @@
             font-size: 16px;
         }
 
-        .commission-box {
+        .commission-section {
+            position: relative;
+            width: 100vw;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            background: transparent !important;
+            padding-bottom: 0;
+            padding-top: 0;
+            z-index: 0;
+            overflow: visible;
+        }
+
+        .commission-section::after {
+            content: "";
+            position: absolute;
+            left: 0; top: 0; right: 0;
+            height: 200px;
             background: linear-gradient(to bottom, #fe6442, #ff6947, #ff6340);
+            z-index: 0;
+            pointer-events: none;
+            transition: height 0.2s;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .commission-section > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .commission-box {
+            background: transparent;
             color: white;
             padding: 20px;
             text-align: center;
-            padding-bottom: 60px;
+            padding-bottom: 0;
+            z-index: 1;
+            position: relative;
         }
 
         .amount {
@@ -193,6 +227,9 @@
         }
 
         .subordinate-stats-card {
+            position: relative;
+            z-index: 2;
+            margin-top: -10px;
             width: 96vw;
             max-width: 430px;
             margin: 18px auto 0 auto;
@@ -284,37 +321,38 @@
         <span>🌱</span>
     </div>
 
-    <div class="commission-box">
-        <div class="amount">26.95</div>
-        <div class="subtitle">Yesterday's total commission</div>
-        <div class="subtitle">Upgrade the level to increase commission income</div>
-    </div>
-
-    <div class="subordinate-stats-card">
-        <div class="subordinate-stats-header">
-            <div class="header-col">Direct</div>
-            <div class="header-col">Team subordinates</div>
+    <div class="commission-section" id="commissionSection">
+        <div class="commission-box">
+            <div class="amount">26.95</div>
+            <div class="subtitle">Yesterday's total commission</div>
+            <div class="subtitle">Upgrade the level to increase commission income</div>
         </div>
-        <div class="subordinate-stats-body">
-            <div class="stats-col">
-                <div class="stat-main">0</div>
-                <div class="stat-label">number of register</div>
-                <div class="stat-main green">0</div>
-                <div class="stat-label">Deposit number</div>
-                <div class="stat-main orange">0</div>
-                <div class="stat-label">Deposit amount</div>
-                <div class="stat-main">0</div>
-                <div class="stat-label">Number of people making<br>first deposit</div>
+        <div class="subordinate-stats-card" id="subordinateStatsCard">
+            <div class="subordinate-stats-header">
+                <div class="header-col">Direct</div>
+                <div class="header-col">Team subordinates</div>
             </div>
-            <div class="stats-col">
-                <div class="stat-main">0</div>
-                <div class="stat-label">number of register</div>
-                <div class="stat-main green">0</div>
-                <div class="stat-label">Deposit number</div>
-                <div class="stat-main orange">0</div>
-                <div class="stat-label">Deposit amount</div>
-                <div class="stat-main">0</div>
-                <div class="stat-label">Number of people making<br>first deposit</div>
+            <div class="subordinate-stats-body">
+                <div class="stats-col">
+                    <div class="stat-main">0</div>
+                    <div class="stat-label">number of register</div>
+                    <div class="stat-main green">0</div>
+                    <div class="stat-label">Deposit number</div>
+                    <div class="stat-main orange">0</div>
+                    <div class="stat-label">Deposit amount</div>
+                    <div class="stat-main">0</div>
+                    <div class="stat-label">Number of people making<br>first deposit</div>
+                </div>
+                <div class="stats-col">
+                    <div class="stat-main">0</div>
+                    <div class="stat-label">number of register</div>
+                    <div class="stat-main green">0</div>
+                    <div class="stat-label">Deposit number</div>
+                    <div class="stat-main orange">0</div>
+                    <div class="stat-label">Deposit amount</div>
+                    <div class="stat-main">0</div>
+                    <div class="stat-label">Number of people making<br>first deposit</div>
+                </div>
             </div>
         </div>
     </div>
@@ -407,5 +445,31 @@
             <div>Account</div>
         </div>
     </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            var card = document.getElementById('subordinateStatsCard');
+            var section = document.getElementById('commissionSection');
+            if (card && section) {
+                var cardRect = card.getBoundingClientRect();
+                var commissionBox = section.querySelector('.commission-box');
+                var commissionBoxHeight = commissionBox ? commissionBox.getBoundingClientRect().height : 0;
+                var gradientHeight = commissionBoxHeight + cardRect.height / 3;
+                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
+                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
+                section.querySelector(':scope').style = '';
+                section.style = '';
+                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
+                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
+                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
+                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
+                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
+                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
+                var styleSheet = document.createElement("style");
+                styleSheet.innerText = ".commission-section::after { height: " + gradientHeight + "px !important; }";
+                document.head.appendChild(styleSheet);
+            }
+        });
+    </script>
 </body>
 </html> 
