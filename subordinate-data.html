@@ -502,7 +502,7 @@
                 firstDepositAmount: document.getElementById('firstDepositAmount').textContent
             };
 
-            // Keep previous data for 0.1s, then update
+            // Keep previous data for 0.3s, then update (increased by 0.2s)
             setTimeout(() => {
                 const data = statsData[dateStr] || {
                     depositNumber: 0,
@@ -515,7 +515,7 @@
                 updateStatsBox(data);
                 spinner.style.display = 'none';
                 document.getElementById('noData').style.display = '';
-            }, 100);
+            }, 300);
         };
     </script>
 </body>
