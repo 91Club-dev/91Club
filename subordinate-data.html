@@ -226,6 +226,25 @@
             0% { transform: rotate(0deg);}
             100% { transform: rotate(360deg);}
         }
+        .tier-option.selected {
+            color: #222 !important;
+            font-weight: bold !important;
+            background: #f7f7f7;
+            border-radius: 8px;
+        }
+        .tier-option {
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+            font-size: 18px;
+            padding: 12px 0;
+            width: 100%;
+            text-align: center;
+            color: #b0b0b0;
+            user-select: none;
+        }
+        .tier-picker-col::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -243,9 +262,12 @@
         </button>
     </div>
     <div class="filters">
-        <select>
-            <option>All</option>
-        </select>
+        <div id="tierSelectBtn" style="flex:1;position:relative;">
+            <button id="openTierModal" style="width:100%;padding:8px 0;border-radius:6px;border:1px solid #eee;background:#fff;font-size:12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;">
+                <span id="selectedTier">All</span>
+                <span style="font-size:14px;margin-left:6px;">&#9662;</span>
+            </button>
+        </div>
         <div id="date-select" style="flex:1;position:relative;">
             <button id="openDateModal" style="width:100%;padding:8px 0;border-radius:6px;border:1px solid #eee;background:#fff;font-size:12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;">
                 <span id="selectedDate">2025-04-25</span>
@@ -281,7 +303,7 @@
     </div>
     <div class="loading-spinner" id="loadingSpinner"></div>
     <div class="no-data" id="noData">
-        No data
+        Your commission send to your wallet daily.
     </div>
 
     <!-- Date Picker Modal -->
@@ -296,6 +318,23 @@
                 <div class="picker-col" id="yearCol"></div>
                 <div class="picker-col" id="monthCol"></div>
                 <div class="picker-col" id="dayCol"></div>
+                <div class="picker-highlight"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tier Modal (visual only, now scrollable) -->
+    <div class="date-modal-overlay" id="tierModalOverlay">
+        <div class="date-modal" style="min-height: 270px; max-width: 350px;">
+            <div class="date-modal-header">
+                <span class="cancel" id="cancelTier" style="color:#888;cursor:pointer;">Cancel</span>
+                <span class="title" style="color:#111a3a;font-size:18px;font-weight:bold;flex:1;text-align:center;">Choose Tier</span>
+                <span class="confirm" id="confirmTier" style="color:#1abc1a;cursor:pointer;">Confirm</span>
+            </div>
+            <div class="tier-picker-row" style="position:relative;height:180px;margin:0 10px;">
+                <div class="tier-picker-col" id="tierCol" style="flex:1;display:flex;flex-direction:column;align-items:center;overflow-y:scroll;height:180px;scrollbar-width:none;-ms-overflow-style:none;position:relative;">
+                    <!-- Options will be filled by JS -->
+                </div>
                 <div class="picker-highlight"></div>
             </div>
         </div>
@@ -517,6 +556,86 @@
                 document.getElementById('noData').style.display = '';
             }, 300);
         };
+
+        // --- Tier Modal Logic (visual only, scrollable) ---
+        const openTierModal = document.getElementById('openTierModal');
+        const tierModalOverlay = document.getElementById('tierModalOverlay');
+        const cancelTier = document.getElementById('cancelTier');
+        const confirmTier = document.getElementById('confirmTier');
+        const selectedTierSpan = document.getElementById('selectedTier');
+        const tierCol = document.getElementById('tierCol');
+        let selectedTier = "All";
+        let tempSelectedTier = "All";
+        const tierList = ["All", "Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5", "Tier 6"];
+
+        function fillTierCol(selected) {
+            tierCol.innerHTML = '';
+            tierList.forEach(tier => {
+                const div = document.createElement('div');
+                div.className = 'tier-option' + (tier === selected ? ' selected' : '');
+                div.textContent = tier;
+                div.dataset.tier = tier;
+                tierCol.appendChild(div);
+            });
+        }
+
+        function scrollToSelectedTier() {
+            const sel = tierCol.querySelector('.selected');
+            if (sel) {
+                tierCol.scrollTop = sel.offsetTop - tierCol.clientHeight/2 + sel.clientHeight/2;
+            }
+        }
+
+        openTierModal.onclick = function(e) {
+            tempSelectedTier = selectedTier;
+            fillTierCol(selectedTier);
+            setTimeout(scrollToSelectedTier, 10);
+            tierModalOverlay.classList.add('active');
+        };
+
+        cancelTier.onclick = function() {
+            tierModalOverlay.classList.remove('active');
+        };
+
+        confirmTier.onclick = function() {
+            selectedTier = tempSelectedTier;
+            selectedTierSpan.textContent = selectedTier;
+            tierModalOverlay.classList.remove('active');
+        };
+
+        // Delegate click and scroll for tierCol
+        tierCol.onclick = function(e) {
+            if (e.target.classList.contains('tier-option')) {
+                Array.from(tierCol.children).forEach(o => {
+                    o.classList.remove('selected');
+                    o.style.color = "#b0b0b0";
+                    o.style.fontWeight = "normal";
+                });
+                e.target.classList.add('selected');
+                e.target.style.color = "#222";
+                e.target.style.fontWeight = "bold";
+                tempSelectedTier = e.target.dataset.tier;
+            }
+        };
+        tierCol.addEventListener('scroll', () => {
+            clearTimeout(tierCol._scrollTimeout);
+            tierCol._scrollTimeout = setTimeout(() => {
+                let items = Array.from(tierCol.children);
+                let closest = items.reduce((a, b) => {
+                    return Math.abs(a.offsetTop - tierCol.scrollTop - tierCol.clientHeight/2 + a.clientHeight/2) <
+                           Math.abs(b.offsetTop - tierCol.scrollTop - tierCol.clientHeight/2 + b.clientHeight/2) ? a : b;
+                });
+                Array.from(tierCol.children).forEach(o => {
+                    o.classList.remove('selected');
+                    o.style.color = "#b0b0b0";
+                    o.style.fontWeight = "normal";
+                });
+                closest.classList.add('selected');
+                closest.style.color = "#222";
+                closest.style.fontWeight = "bold";
+                tempSelectedTier = closest.dataset.tier;
+            }, 100);
+        });
     </script>
 </body>
 </html> 
