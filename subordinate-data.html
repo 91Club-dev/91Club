@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Subordinate Data</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_forward_ios" />
     <style>
         body {
             background: #f5f6fa;
@@ -249,7 +250,7 @@
 </head>
 <body>
     <div class="header">
-        <a href="index.html" class="back">&#8592;</a>
+        <a href="index.html" class="back"><span class='material-symbols-outlined' style='font-size:18px;transform:rotate(180deg);vertical-align:middle;'>arrow_forward_ios</span></a>
         Subordinate data
     </div>
     <div class="search-bar">
@@ -303,7 +304,7 @@
     </div>
     <div class="loading-spinner" id="loadingSpinner"></div>
     <div class="no-data" id="noData">
-        Your commission send to your wallet daily.
+        Yesterday's commission
     </div>
 
     <!-- Date Picker Modal -->
@@ -354,22 +355,6 @@
 
         // Data for specific dates (UPDATED)
         const statsData = {
-            "2025-04-28": {
-                depositNumber: 176,
-                depositAmount: 46293,
-                numBettors: 202,
-                totalBet: 229381,
-                numFirstDeposit: 152,
-                firstDepositAmount: 32782
-            },
-            "2025-04-27": {
-                depositNumber: 147,
-                depositAmount: 38282,
-                numBettors: 191,
-                totalBet: 186393,
-                numFirstDeposit: 125,
-                firstDepositAmount: 27292
-            },
             "2025-04-26": {
                 depositNumber: 136,
                 depositAmount: 25829,
