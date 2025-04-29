@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agency Dashboard</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_forward_ios" />
     <style>
         * {
             margin: 0;
@@ -328,19 +329,52 @@
         .stat-main.deposit-amount {
             color: #ffd600 !important; /* yellow */
         }
+
+        .menu-icon {
+            width: 36px;
+            height: 36px;
+            margin-right: 14px;
+            vertical-align: middle;
+        }
+        .menu-item-left span.menu-text {
+            color: #0a2342;
+            font-size: 17px;
+            font-weight: 400;
+        }
+        .menu-item {
+            background: #fff;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            box-shadow: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 22px 24px 22px 18px;
+        }
+        .menu-list {
+            background: #f6f7f7;
+            padding: 18px 0 0 0;
+        }
+
+        .invitation-code {
+            font-size: 13px;
+            color: #0a2342;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>Agency</h1>
-        <span>🌱</span>
+        <img src="filter-icon.png" alt="Filter Icon" style="height:32px;width:32px;object-fit:contain;" />
     </div>
 
     <div class="commission-section" id="commissionSection">
         <div class="commission-box">
             <div class="amount">26.95</div>
             <div class="subtitle">Yesterday's total commission</div>
-            <div class="subtitle">Upgrade the level to increase commission income</div>
         </div>
         <div class="subordinate-stats-card" id="subordinateStatsCard">
             <div class="subordinate-stats-header">
@@ -349,13 +383,13 @@
             </div>
             <div class="subordinate-stats-body">
                 <div class="stats-col">
-                    <div class="stat-main">104</div>
+                    <div class="stat-main">214</div>
                     <div class="stat-label">number of register</div>
-                    <div class="stat-main deposit-number">85</div>
+                    <div class="stat-main deposit-number">176</div>
                     <div class="stat-label">Deposit number</div>
-                    <div class="stat-main deposit-amount">19340</div>
+                    <div class="stat-main deposit-amount">46293</div>
                     <div class="stat-label">Deposit amount</div>
-                    <div class="stat-main">80</div>
+                    <div class="stat-main">152</div>
                     <div class="stat-label">Number of people making<br>first deposit</div>
                 </div>
                 <div class="stats-col">
@@ -377,48 +411,56 @@
     <div class="menu-list">
         <div class="menu-item">
             <div class="menu-item-left">
-                <span>📋</span>
-                <span>Copy invitation code</span>
+                <img src="icons/copy-code.png" alt="Copy invitation code" class="menu-icon" />
+                <span class="menu-text">Copy invitation code</span>
             </div>
-            <div>3174717551726 📋</div>
+            <span class="invitation-code">8758427895</span>
         </div>
         <a href="subordinate-data.html" style="text-decoration:none;color:inherit;">
             <div class="menu-item">
                 <div class="menu-item-left">
-                    <span>📊</span>
+                    <img src="icons/subordinate-data.png" alt="Subordinate data" class="menu-icon" />
                     <span>Subordinate data</span>
                 </div>
-                <span>›</span>
+                <span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;">arrow_forward_ios</span>
             </div>
         </a>
-        <div class="menu-item">
-            <div class="menu-item-left">
-                <span>💰</span>
-                <span>Commission detail</span>
+        <a href="#" style="text-decoration:none;color:inherit;">
+            <div class="menu-item">
+                <div class="menu-item-left">
+                    <img src="icons/commission-detail.png" alt="Commission detail" class="menu-icon" />
+                    <span>Commission detail</span>
+                </div>
+                <span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;">arrow_forward_ios</span>
             </div>
-            <span>›</span>
-        </div>
-        <div class="menu-item">
-            <div class="menu-item-left">
-                <span>📜</span>
-                <span>Invitation rules</span>
+        </a>
+        <a href="#" style="text-decoration:none;color:inherit;">
+            <div class="menu-item">
+                <div class="menu-item-left">
+                    <img src="icons/invitation-rules.png" alt="Invitation rules" class="menu-icon" />
+                    <span>Invitation rules</span>
+                </div>
+                <span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;">arrow_forward_ios</span>
             </div>
-            <span>›</span>
-        </div>
-        <div class="menu-item">
-            <div class="menu-item-left">
-                <span>💬</span>
-                <span>Agent line customer service</span>
+        </a>
+        <a href="#" style="text-decoration:none;color:inherit;">
+            <div class="menu-item">
+                <div class="menu-item-left">
+                    <img src="icons/customer-service.png" alt="Agent line customer service" class="menu-icon" />
+                    <span>Agent line customer service</span>
+                </div>
+                <span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;">arrow_forward_ios</span>
             </div>
-            <span>›</span>
-        </div>
-        <div class="menu-item">
-            <div class="menu-item-left">
-                <span>📊</span>
-                <span>Rebate ratio</span>
+        </a>
+        <a href="#" style="text-decoration:none;">
+            <div class="menu-item">
+                <div class="menu-item-left">
+                    <img src="icons/rebate-ratio.png" alt="Rebate ratio" class="menu-icon" />
+                    <span class="menu-text">Rebate ratio</span>
+                </div>
+                <span class="material-symbols-outlined" style="font-size:22px;vertical-align:middle;color:#0a2342;">arrow_forward_ios</span>
             </div>
-            <span>›</span>
-        </div>
+        </a>
     </div>
 
     <div class="promotion-data">
@@ -472,15 +514,6 @@
                 var commissionBox = section.querySelector('.commission-box');
                 var commissionBoxHeight = commissionBox ? commissionBox.getBoundingClientRect().height : 0;
                 var gradientHeight = commissionBoxHeight + cardRect.height / 3;
-                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
-                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
-                section.querySelector(':scope').style = '';
-                section.style = '';
-                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
-                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
-                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
-                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
-                section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
                 section.style.setProperty('--commission-gradient-height', gradientHeight + 'px');
                 var styleSheet = document.createElement("style");
                 styleSheet.innerText = ".commission-section::after { height: " + gradientHeight + "px !important; }";
