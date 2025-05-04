@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Subordinate Data</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_forward_ios" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_forward_ios,expand_more" />
     <style>
         body {
             background: #f5f6fa;
@@ -47,7 +47,7 @@
             padding: 8px;
         }
         .search-bar button {
-            background: #ff6b5a;
+            background: #ff5733;  /* Changed from #ffcb2d */
             border: none;
             color: #fff;
             border-radius: 30%;
@@ -73,7 +73,7 @@
             font-size: 12px;
         }
         .stats-box {
-            background: #ff6b5a;
+            background: #ff5733;  /* Changed from #ffcb2d */
             color: #fff;
             border-radius: 12px;
             margin: 0 12px 16px 12px;
@@ -97,6 +97,11 @@
         }
         .stats-box .stat .value.deposit-amount {
             color: #fff !important;
+        }
+        .stats-col .time-value {
+            color: #666;  /* Grey color */
+            font-size: 12px;  /* Smaller size */
+            font-weight: normal;
         }
         .no-data {
             text-align: center;
@@ -146,7 +151,7 @@
             font-weight: 400;
         }
         .date-modal-header .confirm {
-            color: #1abc1a;
+            color: #ff5733;  /* Changed from #ffcb2d */
             font-size: 16px;
             cursor: pointer;
             font-weight: 400;
@@ -261,67 +266,6 @@
             user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
-        .uid-cards {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin: 0 12px 16px 12px;
-        }
-        .uid-card {
-            background: #fff;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 12px;
-            width: 100%;
-            color: #333;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-        }
-
-        .uid-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-
-        .uid-number {
-            font-size: 16px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .copy-btn {
-            background: transparent;
-            border: none;
-            padding: 4px;
-            cursor: pointer;
-            width: 20px;
-            height: 20px;
-        }
-
-        .uid-info-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .uid-info-label {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .uid-info-value {
-            color: #FFB71B;
-            font-size: 14px;
-        }
-
-        .uid-info-value.time {
-            color: #999;  /* light gray color */
-            font-size: 11px;  /* smaller text size */
-        }
     </style>
 </head>
 <body>
@@ -342,13 +286,13 @@
         <div id="tierSelectBtn" style="flex:1;position:relative;">
             <button id="openTierModal" style="width:100%;padding:8px 0;border-radius:6px;border:1px solid #eee;background:#fff;font-size:12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;">
                 <span id="selectedTier">All</span>
-                <span style="font-size:14px;margin-left:6px;">&#9662;</span>
+                <span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;">expand_more</span>
             </button>
         </div>
         <div id="date-select" style="flex:1;position:relative;">
             <button id="openDateModal" style="width:100%;padding:8px 0;border-radius:6px;border:1px solid #eee;background:#fff;font-size:12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;">
-                <span id="selectedDate">2025-04-28</span>
-                <span style="font-size:14px;margin-left:6px;">&#9662;</span>
+                <span id="selectedDate">2025-05-04</span>
+                <span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;">expand_more</span>
             </button>
         </div>
     </div>
@@ -378,8 +322,8 @@
             <div>First deposit amount</div>
         </div>
     </div>
-    <div class="uid-cards" id="uidCards">
-        <!-- Cards will be added here dynamically -->
+    <div id="uidCards">
+        <!-- UID cards will be dynamically inserted here -->
     </div>
     <div class="loading-spinner" id="loadingSpinner"></div>
     <div class="no-data" id="noData">
@@ -409,7 +353,7 @@
             <div class="date-modal-header">
                 <span class="cancel" id="cancelTier" style="color:#888;cursor:pointer;">Cancel</span>
                 <span class="title" style="color:#111a3a;font-size:18px;font-weight:bold;flex:1;text-align:center;">Choose Tier</span>
-                <span class="confirm" id="confirmTier" style="color:#1abc1a;cursor:pointer;">Confirm</span>
+                <span class="confirm" id="confirmTier" style="color:#ff5733;cursor:pointer;">Confirm</span>
             </div>
             <div class="tier-picker-row" style="position:relative;height:180px;margin:0 10px;">
                 <div class="tier-picker-col" id="tierCol" style="flex:1;display:flex;flex-direction:column;align-items:center;overflow-y:scroll;height:180px;scrollbar-width:none;-ms-overflow-style:none;position:relative;">
@@ -421,6 +365,8 @@
     </div>
     <script>
         // --- Date Picker Logic ---
+        let pickerState = { year: 2025, month: 5, day: 4 };  // Changed from 4, 25
+
         const openDateModal = document.getElementById('openDateModal');
         const dateModalOverlay = document.getElementById('dateModalOverlay');
         const cancelDate = document.getElementById('cancelDate');
@@ -430,105 +376,139 @@
         const monthCol = document.getElementById('monthCol');
         const dayCol = document.getElementById('dayCol');
 
-        let pickerState = { year: 2025, month: 4, day: 25 };
+        selectedDateSpan.textContent = '2025-05-04';  // Changed from 2025-04-28
 
         // Data for specific dates (UPDATED)
         const statsData = {
-            "2025-04-26": {
-                depositNumber: 136,
-                depositAmount: 25829,
-                numBettors: 201,
-                totalBet: 76292,
-                numFirstDeposit: 103,
-                firstDepositAmount: 19729
-            },
-            "2025-04-25": {
-                depositNumber: 104,
-                depositAmount: 18380,
-                numBettors: 161,
-                totalBet: 116207,
-                numFirstDeposit: 84,
-                firstDepositAmount: 129730
-            },
-            "2025-04-24": {
-                depositNumber: 145,
-                depositAmount: 25828,
-                numBettors: 201,
-                totalBet: 128273,
-                numFirstDeposit: 91,
-                firstDepositAmount: 15729
-            },
-            "2025-04-23": {
-                depositNumber: 98,
-                depositAmount: 15629,
-                numBettors: 140,
-                totalBet: 64282,
-                numFirstDeposit: 75,
-                firstDepositAmount: 9297
-            },
-            "2025-04-22": {
-                depositNumber: 195,
-                depositAmount: 43829,
-                numBettors: 254,
-                totalBet: 72894,
-                numFirstDeposit: 152,
-                firstDepositAmount: 36292
+            uidCards: [
+                {
+                    uid: "829672",
+                    level: 2,
+                    depositAmount: 5300,
+                    betAmount: 0,
+                    commission: 53,
+                    time: "2025-05-03"
+                }
+            ],
+            "2025-04-20": {
+                "Tier 1": {
+                    depositNumber: 128,
+                    depositAmount: 23273,
+                    numBettors: 163,
+                    totalBet: 42683,
+                    numFirstDeposit: 102,
+                    firstDepositAmount: 19729
+                }
             },
             "2025-04-21": {
-                depositNumber: 79,
-                depositAmount: 13739,
-                numBettors: 103,
-                totalBet: 38283,
-                numFirstDeposit: 65,
-                firstDepositAmount: 8273
+                "Tier 1": {
+                    depositNumber: 79,
+                    depositAmount: 13739,
+                    numBettors: 103,
+                    totalBet: 38283,
+                    numFirstDeposit: 65,
+                    firstDepositAmount: 8273
+                }
             },
-            "2025-04-20": {
-                depositNumber: 128,
-                depositAmount: 23273,
-                numBettors: 163,
-                totalBet: 42683,
-                numFirstDeposit: 102,
-                firstDepositAmount: 19729
+            "2025-04-22": {
+                "Tier 1": {
+                    depositNumber: 195,
+                    depositAmount: 43829,
+                    numBettors: 254,
+                    totalBet: 72894,
+                    numFirstDeposit: 152,
+                    firstDepositAmount: 36292
+                }
+            },
+            "2025-04-23": {
+                "Tier 1": {
+                    depositNumber: 98,
+                    depositAmount: 15629,
+                    numBettors: 140,
+                    totalBet: 64282,
+                    numFirstDeposit: 75,
+                    firstDepositAmount: 9297
+                }
+            },
+            "2025-04-24": {
+                "Tier 1": {
+                    depositNumber: 145,
+                    depositAmount: 25828,
+                    numBettors: 201,
+                    totalBet: 128273,
+                    numFirstDeposit: 91,
+                    firstDepositAmount: 15729
+                }
+            },
+            "2025-04-25": {
+                "Tier 1": {
+                    depositNumber: 104,
+                    depositAmount: 18380,
+                    numBettors: 161,
+                    totalBet: 116207,
+                    numFirstDeposit: 84,
+                    firstDepositAmount: 129730
+                }
+            },
+            "2025-04-26": {
+                "Tier 1": {
+                    depositNumber: 136,
+                    depositAmount: 25829,
+                    numBettors: 201,
+                    totalBet: 76292,
+                    numFirstDeposit: 103,
+                    firstDepositAmount: 19729
+                }
             },
             "2025-04-27": {
-                depositNumber: 147,
-                depositAmount: 38282,
-                numBettors: 191,
-                totalBet: 186393,
-                numFirstDeposit: 125,
-                firstDepositAmount: 27292
+                "Tier 1": {
+                    depositNumber: 147,
+                    depositAmount: 38282,
+                    numBettors: 191,
+                    totalBet: 186393,
+                    numFirstDeposit: 125,
+                    firstDepositAmount: 27292
+                }
             },
             "2025-04-28": {
-                depositNumber: 176,
-                depositAmount: 46293,
-                numBettors: 202,
-                totalBet: 229381,
-                numFirstDeposit: 152,
-                firstDepositAmount: 32782
+                "Tier 1": {
+                    depositNumber: 176,
+                    depositAmount: 46293,
+                    numBettors: 202,
+                    totalBet: 229381,
+                    numFirstDeposit: 152,
+                    firstDepositAmount: 32782
+                }
             },
             "2025-04-29": {
-                depositNumber: 156,
-                depositAmount: 39629,
-                numBettors: 201,
-                totalBet: 159829,
-                numFirstDeposit: 106,
-                firstDepositAmount: 30728
+                "Tier 1": {
+                    depositNumber: 156,
+                    depositAmount: 39629,
+                    numBettors: 201,
+                    totalBet: 159829,
+                    numFirstDeposit: 106,
+                    firstDepositAmount: 30728
+                }
             },
             "2025-04-30": {
-                depositNumber: 168,
-                depositAmount: 69279,
-                numBettors: 217,
-                totalBet: 142739,
-                numFirstDeposit: 138,
-                firstDepositAmount: 56292
+                "Tier 1": {
+                    depositNumber: 168,
+                    depositAmount: 69279,
+                    numBettors: 217,
+                    totalBet: 142739,
+                    numFirstDeposit: 138,
+                    firstDepositAmount: 56292
+                }
             },
             "2025-05-01": {
-                depositNumber: 205,
-                depositAmount: 59926,
-                numBettors: 261,
-                totalBet: 201562,
-                numFirstDeposit: 158,
-                firstDepositAmount: 48928
+                "Tier 1": {
+                    depositNumber: 205,
+                    depositAmount: 59926,
+                    numBettors: 261,
+                    totalBet: 201562,
+                    numFirstDeposit: 158,
+                    firstDepositAmount: 48928
+                }
             }
         };
 
@@ -536,6 +516,16 @@
 
         function fillPickerCol(col, arr, selected) {
             col.innerHTML = '';
+            
+            // Add empty padding items before
+            for (let i = 0; i < 3; i++) {
+                const padDiv = document.createElement('div');
+                padDiv.className = 'picker-item pad';
+                padDiv.innerHTML = '&nbsp;';
+                padDiv.style.visibility = 'hidden';
+                col.appendChild(padDiv);
+            }
+            
             arr.forEach(val => {
                 const div = document.createElement('div');
                 div.className = 'picker-item' + (val == selected ? ' selected' : '');
@@ -543,6 +533,15 @@
                 div.dataset.value = val;
                 col.appendChild(div);
             });
+            
+            // Add empty padding items after
+            for (let i = 0; i < 3; i++) {
+                const padDiv = document.createElement('div');
+                padDiv.className = 'picker-item pad';
+                padDiv.innerHTML = '&nbsp;';
+                padDiv.style.visibility = 'hidden';
+                col.appendChild(padDiv);
+            }
         }
 
         function scrollToSelected(col) {
@@ -553,23 +552,33 @@
         }
 
         function updatePickerCols({year=true, month=true, day=true} = {}) {
-            // Only refill columns if needed
+            const maxDate = new Date(2025, 4, 4); // May 4, 2025 (months are 0-based)
+            
             if (year) {
                 let years = [];
-                for(let y=2022; y<=2025; y++) years.push(y);
+                for(let y = 2022; y <= maxDate.getFullYear(); y++) years.push(y);
                 fillPickerCol(yearCol, years, pickerState.year);
             }
             if (month) {
                 let months = [];
-                for(let m=1; m<=12; m++) months.push(pad(m));
+                const maxMonth = pickerState.year === maxDate.getFullYear() ? 
+                    (maxDate.getMonth() + 1) : 12; // This will be 5 for May
+                for(let m = 1; m <= maxMonth; m++) months.push(pad(m));
                 fillPickerCol(monthCol, months, pad(pickerState.month));
             }
             if (day) {
-                let daysInMonth = new Date(pickerState.year, pickerState.month, 0).getDate();
+                let maxDay;
+                if (pickerState.year === maxDate.getFullYear() && 
+                    pickerState.month === (maxDate.getMonth() + 1)) {
+                    maxDay = maxDate.getDate();
+                } else {
+                    maxDay = new Date(pickerState.year, pickerState.month, 0).getDate();
+                }
                 let days = [];
-                for(let d=1; d<=daysInMonth; d++) days.push(pad(d));
+                for(let d = 1; d <= maxDay; d++) days.push(pad(d));
                 fillPickerCol(dayCol, days, pad(pickerState.day));
             }
+            
             setTimeout(() => {
                 scrollToSelected(yearCol);
                 scrollToSelected(monthCol);
@@ -579,7 +588,7 @@
 
         function setSelected(col, value) {
             Array.from(col.children).forEach(child => {
-                if (child.dataset.value == value) {
+                if (!child.classList.contains('pad') && child.dataset.value == value) {
                     child.classList.add('selected');
                 } else {
                     child.classList.remove('selected');
@@ -589,27 +598,67 @@
 
         function handlePickerClick(col, key, isDayCol = false) {
             col.addEventListener('click', e => {
-                if (e.target.classList.contains('picker-item')) {
-                    pickerState[key] = parseInt(e.target.dataset.value);
-                    setSelected(col, e.target.dataset.value);
-                    if (key === 'year' || key === 'month') {
-                        // If year or month changes, update days column
-                        updatePickerCols({year:false, month:false, day:true});
+                if (e.target.classList.contains('picker-item') && !e.target.classList.contains('pad')) {
+                    const newValue = parseInt(e.target.dataset.value);
+                    const maxDate = new Date(2025, 5, 4); // May 4, 2025
+                    
+                    let isValid = true;
+                    const tempDate = new Date(
+                        key === 'year' ? newValue : pickerState.year,
+                        key === 'month' ? newValue - 1 : pickerState.month - 1,
+                        key === 'day' ? newValue : pickerState.day
+                    );
+                    
+                    // Modified validation to allow selection of May (month 5)
+                    if (tempDate > maxDate || 
+                        (pickerState.year === 2025 && key === 'month' && newValue > 5) ||
+                        (pickerState.year === 2025 && pickerState.month === 5 && key === 'day' && newValue > 4)) {
+                        isValid = false;
+                    }
+                    
+                    if (isValid) {
+                        pickerState[key] = newValue;
+                        setSelected(col, e.target.dataset.value);
+                        if (key === 'year' || key === 'month') {
+                            updatePickerCols({year: false, month: false, day: true});
+                        }
                     }
                 }
             });
+            
+            // Update scroll handler with the same logic
             col.addEventListener('scroll', () => {
                 clearTimeout(col._scrollTimeout);
                 col._scrollTimeout = setTimeout(() => {
-                    let items = Array.from(col.children);
+                    let items = Array.from(col.children).filter(item => !item.classList.contains('pad'));
                     let closest = items.reduce((a, b) => {
                         return Math.abs(a.offsetTop - col.scrollTop - col.clientHeight/2 + a.clientHeight/2) <
                                Math.abs(b.offsetTop - col.scrollTop - col.clientHeight/2 + b.clientHeight/2) ? a : b;
                     });
-                    pickerState[key] = parseInt(closest.dataset.value);
-                    setSelected(col, closest.dataset.value);
-                    if ((key === 'year' || key === 'month') && isDayCol) {
-                        updatePickerCols({year:false, month:false, day:true});
+                    
+                    const newValue = parseInt(closest.dataset.value);
+                    const maxDate = new Date(2025, 5, 4);
+                    
+                    let isValid = true;
+                    const tempDate = new Date(
+                        key === 'year' ? newValue : pickerState.year,
+                        key === 'month' ? newValue - 1 : pickerState.month - 1,
+                        key === 'day' ? newValue : pickerState.day
+                    );
+                    
+                    // Same modified validation for scroll
+                    if (tempDate > maxDate || 
+                        (pickerState.year === 2025 && key === 'month' && newValue > 5) ||
+                        (pickerState.year === 2025 && pickerState.month === 5 && key === 'day' && newValue > 4)) {
+                        isValid = false;
+                    }
+                    
+                    if (isValid) {
+                        pickerState[key] = newValue;
+                        setSelected(col, closest.dataset.value);
+                        if ((key === 'year' || key === 'month') && isDayCol) {
+                            updatePickerCols({year: false, month: false, day: true});
+                        }
                     }
                 }, 100);
             });
@@ -649,29 +698,71 @@
             document.getElementById('firstDepositAmount').textContent = data.firstDepositAmount;
         }
 
+        function updateUIDCards() {
+            const uidCardsContainer = document.getElementById('uidCards');
+            uidCardsContainer.innerHTML = '';
+            
+            if (statsData.uidCards) {
+                statsData.uidCards.forEach(card => {
+                    const cardHTML = `
+                        <div style="background: white; margin: 15px; padding: 15px; border-radius: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="font-weight: 500;">UID:${card.uid}</span>
+                                    <img src="icons/copy-icon.png" alt="Copy" style="width: 16px; height: 16px; opacity: 0.6; cursor: pointer;" 
+                                        onclick="copyToClipboard('${card.uid}')">
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="color: #666;">Level</span>
+                                <span>${card.level}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="color: #666;">Deposit amount</span>
+                                <span style="color: #ffcb2d;">${card.depositAmount}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="color: #666;">Bet amount</span>
+                                <span style="color: #ffcb2d;">${card.betAmount}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="color: #666;">Commission</span>
+                                <span style="color: #ffcb2d;">${card.commission}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #666;">Time</span>
+                                <span style="color: #999; font-size: 11px;">${card.time}</span>
+                            </div>
+                        </div>
+                    `;
+                    uidCardsContainer.innerHTML += cardHTML;
+                });
+            }
+        }
+
+        // Add this function for copy functionality
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Optional: Show a brief feedback message
+                alert('UID copied to clipboard');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+
         confirmDate.onclick = function() {
             const y = pickerState.year, m = pad(pickerState.month), d = pad(pickerState.day);
             const dateStr = `${y}-${m}-${d}`;
             selectedDateSpan.textContent = dateStr;
             dateModalOverlay.classList.remove('active');
 
-            // Show loading spinner
             const spinner = document.getElementById('loadingSpinner');
             spinner.style.display = 'block';
 
-            // Save current stats
-            lastStats = {
-                depositNumber: document.getElementById('depositNumber').textContent,
-                depositAmount: document.getElementById('depositAmount').textContent,
-                numBettors: document.getElementById('numBettors').textContent,
-                totalBet: document.getElementById('totalBet').textContent,
-                numFirstDeposit: document.getElementById('numFirstDeposit').textContent,
-                firstDepositAmount: document.getElementById('firstDepositAmount').textContent
-            };
-
-            // Keep previous data for 0.3s, then update (increased by 0.2s)
             setTimeout(() => {
-                const data = statsData[dateStr] || {
+                // Get data for selected date and current tier
+                const dateData = statsData[dateStr];
+                const data = dateData && dateData[selectedTier] ? dateData[selectedTier] : {
                     depositNumber: 0,
                     depositAmount: 0,
                     numBettors: 0,
@@ -679,6 +770,7 @@
                     numFirstDeposit: 0,
                     firstDepositAmount: 0
                 };
+                
                 updateStatsBox(data);
                 spinner.style.display = 'none';
                 document.getElementById('noData').style.display = '';
@@ -698,6 +790,16 @@
 
         function fillTierCol(selected) {
             tierCol.innerHTML = '';
+            
+            // Add padding items before
+            for (let i = 0; i < 3; i++) {
+                const padDiv = document.createElement('div');
+                padDiv.className = 'tier-option pad';
+                padDiv.innerHTML = '&nbsp;';
+                padDiv.style.visibility = 'hidden';
+                tierCol.appendChild(padDiv);
+            }
+            
             tierList.forEach(tier => {
                 const div = document.createElement('div');
                 div.className = 'tier-option' + (tier === selected ? ' selected' : '');
@@ -705,6 +807,15 @@
                 div.dataset.tier = tier;
                 tierCol.appendChild(div);
             });
+            
+            // Add padding items after
+            for (let i = 0; i < 3; i++) {
+                const padDiv = document.createElement('div');
+                padDiv.className = 'tier-option pad';
+                padDiv.innerHTML = '&nbsp;';
+                padDiv.style.visibility = 'hidden';
+                tierCol.appendChild(padDiv);
+            }
         }
 
         function scrollToSelectedTier() {
@@ -729,11 +840,33 @@
             selectedTier = tempSelectedTier;
             selectedTierSpan.textContent = selectedTier;
             tierModalOverlay.classList.remove('active');
+
+            const spinner = document.getElementById('loadingSpinner');
+            spinner.style.display = 'block';
+
+            // Get current date from the date span
+            const currentDate = selectedDateSpan.textContent;
+
+            setTimeout(() => {
+                // Get data for current date and selected tier
+                const dateData = statsData[currentDate];
+                const data = dateData && dateData[selectedTier] ? dateData[selectedTier] : {
+                    depositNumber: 0,
+                    depositAmount: 0,
+                    numBettors: 0,
+                    totalBet: 0,
+                    numFirstDeposit: 0,
+                    firstDepositAmount: 0
+                };
+                
+                updateStatsBox(data);
+                spinner.style.display = 'none';
+            }, 300);
         };
 
         // Delegate click and scroll for tierCol
         tierCol.onclick = function(e) {
-            if (e.target.classList.contains('tier-option')) {
+            if (e.target.classList.contains('tier-option') && !e.target.classList.contains('pad')) {
                 Array.from(tierCol.children).forEach(o => {
                     o.classList.remove('selected');
                     o.style.color = "#b0b0b0";
@@ -748,7 +881,7 @@
         tierCol.addEventListener('scroll', () => {
             clearTimeout(tierCol._scrollTimeout);
             tierCol._scrollTimeout = setTimeout(() => {
-                let items = Array.from(tierCol.children);
+                let items = Array.from(tierCol.children).filter(item => !item.classList.contains('pad'));
                 let closest = items.reduce((a, b) => {
                     return Math.abs(a.offsetTop - tierCol.scrollTop - tierCol.clientHeight/2 + a.clientHeight/2) <
                            Math.abs(b.offsetTop - tierCol.scrollTop - tierCol.clientHeight/2 + b.clientHeight/2) ? a : b;
@@ -765,85 +898,45 @@
             }, 100);
         });
 
-        // --- UID Cards Logic ---
-        const uidData = [
-            {
-                uid: "829672",
-                level: 2,
-                depositAmount: 5300,
-                commission: 53,
-                time: "2025-05-03" // Yesterday's date based on current date
-            }
-        ];
+        window.addEventListener('DOMContentLoaded', () => {
+            updateUIDCards();
+            // Initialize with May 4 data
+            const initialData = statsData['2025-05-04']['All'];
+            updateStatsBox(initialData);
+        });
 
-        function createUIDCard(data) {
-            const card = document.createElement('div');
-            card.className = 'uid-card';
-            card.innerHTML = `
-                <div class="uid-header">
-                    <div class="uid-number">UID:${data.uid}</div>
-                    <button class="copy-btn" onclick="copyUID('${data.uid}')" aria-label="Copy UID">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="#666">
-                            <path d="M12 1H4C3.4 1 3 1.4 3 2V12C3 12.6 3.4 13 4 13H12C12.6 13 13 12.6 13 12V2C13 1.4 12.6 1 12 1Z"/>
-                            <path d="M14 4V14C14 14.6 13.6 15 13 15H5" stroke="#666" fill="none"/>
-                        </svg>
-                    </button>
-                </div>
-                <div class="uid-info">
-                    <div class="uid-info-item">
-                        <span class="uid-info-label">Level</span>
-                        <span class="uid-info-value" style="color: #333">${data.level}</span>
-                    </div>
-                    <div class="uid-info-item">
-                        <span class="uid-info-label">Deposit amount</span>
-                        <span class="uid-info-value">${data.depositAmount}</span>
-                    </div>
-                    <div class="uid-info-item">
-                        <span class="uid-info-label">Commission</span>
-                        <span class="uid-info-value">${data.commission}</span>
-                    </div>
-                    <div class="uid-info-item">
-                        <span class="uid-info-label">Time</span>
-                        <span class="uid-info-value time" style="color: #333">${data.time}</span>
-                    </div>
-                </div>
-            `;
-            return card;
-        }
-
-        function renderUIDCards() {
-            const container = document.getElementById('uidCards');
-            container.innerHTML = '';
-            uidData.forEach(data => {
-                container.appendChild(createUIDCard(data));
-            });
-        }
-
-        function copyUID(uid) {
-            navigator.clipboard.writeText(uid).then(() => {
-                // Optional: Show a toast or notification that UID was copied
-                alert('UID copied to clipboard');
-            });
-        }
-
-        // Add search functionality
-        const searchInput = document.querySelector('.search-bar input');
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const container = document.getElementById('uidCards');
-            container.innerHTML = '';
+        // Add this after your existing script
+        function isDateValid(year, month, day) {
+            const selectedDate = new Date(year, month - 1, day);
+            const today = new Date(2025, 5, 4); // May 4, 2025 (months are 0-based)
             
-            const filteredData = uidData.filter(data => 
-                data.uid.toLowerCase().includes(searchTerm)
-            );
-            
-            filteredData.forEach(data => {
-                container.appendChild(createUIDCard(data));
+            return selectedDate <= today;
+        }
+
+        // Modify your date picker's click/change handlers
+        const dateSelectors = document.querySelectorAll('.date-selector');
+        dateSelectors.forEach(selector => {
+            selector.addEventListener('change', function(e) {
+                const year = parseInt(document.querySelector('[name="year"]').value);
+                const month = parseInt(document.querySelector('[name="month"]').value);
+                const day = parseInt(document.querySelector('[name="day"]').value);
+
+                if (!isDateValid(year, month, day)) {
+                    alert('Cannot select future dates');
+                    // Reset to today's date
+                    document.querySelector('[name="year"]').value = '2025';
+                    document.querySelector('[name="month"]').value = '5';
+                    document.querySelector('[name="day"]').value = '4';
+                    e.preventDefault();
+                    return false;
+                }
             });
         });
 
-        // Initial render
-        renderUIDCards();
+        // Additionally, set max values for the date inputs
+        document.querySelector('[name="year"]').max = '2025';
+        document.querySelector('[name="month"]').max = '5';
+        document.querySelector('[name="day"]').max = '4';
     </script>
 </body>
 </html>
