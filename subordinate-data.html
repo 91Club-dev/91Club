@@ -261,6 +261,67 @@
             user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
+        .uid-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 0 12px 16px 12px;
+        }
+        .uid-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            width: 100%;
+            color: #333;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .uid-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .uid-number {
+            font-size: 16px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: none;
+            padding: 4px;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+        }
+
+        .uid-info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .uid-info-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .uid-info-value {
+            color: #FFB71B;
+            font-size: 14px;
+        }
+
+        .uid-info-value.time {
+            color: #999;  /* light gray color */
+            font-size: 11px;  /* smaller text size */
+        }
     </style>
 </head>
 <body>
@@ -316,6 +377,9 @@
             <div class="value" id="firstDepositAmount">0</div>
             <div>First deposit amount</div>
         </div>
+    </div>
+    <div class="uid-cards" id="uidCards">
+        <!-- Cards will be added here dynamically -->
     </div>
     <div class="loading-spinner" id="loadingSpinner"></div>
     <div class="no-data" id="noData">
@@ -700,6 +764,86 @@
                 tempSelectedTier = closest.dataset.tier;
             }, 100);
         });
+
+        // --- UID Cards Logic ---
+        const uidData = [
+            {
+                uid: "829672",
+                level: 2,
+                depositAmount: 5300,
+                commission: 53,
+                time: "2025-05-03" // Yesterday's date based on current date
+            }
+        ];
+
+        function createUIDCard(data) {
+            const card = document.createElement('div');
+            card.className = 'uid-card';
+            card.innerHTML = `
+                <div class="uid-header">
+                    <div class="uid-number">UID:${data.uid}</div>
+                    <button class="copy-btn" onclick="copyUID('${data.uid}')" aria-label="Copy UID">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="#666">
+                            <path d="M12 1H4C3.4 1 3 1.4 3 2V12C3 12.6 3.4 13 4 13H12C12.6 13 13 12.6 13 12V2C13 1.4 12.6 1 12 1Z"/>
+                            <path d="M14 4V14C14 14.6 13.6 15 13 15H5" stroke="#666" fill="none"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="uid-info">
+                    <div class="uid-info-item">
+                        <span class="uid-info-label">Level</span>
+                        <span class="uid-info-value" style="color: #333">${data.level}</span>
+                    </div>
+                    <div class="uid-info-item">
+                        <span class="uid-info-label">Deposit amount</span>
+                        <span class="uid-info-value">${data.depositAmount}</span>
+                    </div>
+                    <div class="uid-info-item">
+                        <span class="uid-info-label">Commission</span>
+                        <span class="uid-info-value">${data.commission}</span>
+                    </div>
+                    <div class="uid-info-item">
+                        <span class="uid-info-label">Time</span>
+                        <span class="uid-info-value time" style="color: #333">${data.time}</span>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function renderUIDCards() {
+            const container = document.getElementById('uidCards');
+            container.innerHTML = '';
+            uidData.forEach(data => {
+                container.appendChild(createUIDCard(data));
+            });
+        }
+
+        function copyUID(uid) {
+            navigator.clipboard.writeText(uid).then(() => {
+                // Optional: Show a toast or notification that UID was copied
+                alert('UID copied to clipboard');
+            });
+        }
+
+        // Add search functionality
+        const searchInput = document.querySelector('.search-bar input');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const container = document.getElementById('uidCards');
+            container.innerHTML = '';
+            
+            const filteredData = uidData.filter(data => 
+                data.uid.toLowerCase().includes(searchTerm)
+            );
+            
+            filteredData.forEach(data => {
+                container.appendChild(createUIDCard(data));
+            });
+        });
+
+        // Initial render
+        renderUIDCards();
     </script>
 </body>
-</html> 
+</html>
