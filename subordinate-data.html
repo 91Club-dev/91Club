@@ -91,11 +91,18 @@
         .stats-box .stat .value {
             font-size: 13px;
             font-weight: bold;
+            color: #fff;
         }
         .stats-box .stat .value.deposit-number {
-            color: #fff !important;
+            color: #fff;
         }
         .stats-box .stat .value.deposit-amount {
+            color: #fff;
+        }
+        .stats-box .stat .value.bet-amount {
+            color: #ff5733 !important;
+        }
+        .stats-box .stat .value.commission {
             color: #ff5733 !important;
         }
         .stats-col .time-value {
@@ -302,7 +309,7 @@
             <div>Deposit number</div>
         </div>
         <div class="stat">
-            <div class="value deposit-amount" id="depositAmount">0</div>
+            <div class="value" id="depositAmount">0</div>
             <div>Deposit amount</div>
         </div>
         <div class="stat">
@@ -974,6 +981,34 @@
                     { uid: "375942", level: 2, depositAmount: 2800, betAmount: 3158, commission: 15.67, time: "2025-05-18" },
                     { uid: "369361", level: 2, depositAmount: 1500, betAmount: 1865, commission: 9.18, time: "2025-05-18" }
                 ]
+            },
+            "2025-05-15": {
+                "All": {
+                    depositNumber: 462,
+                    depositAmount: 436170,
+                    numBettors: 426,
+                    totalBet: 937136.93,
+                    numFirstDeposit: 404,
+                    firstDepositAmount: 384735
+                },
+                "Tier 1": {
+                    depositNumber: 156,
+                    depositAmount: 263207,
+                    numBettors: 143,
+                    totalBet: 472850.36,
+                    numFirstDeposit: 148,
+                    firstDepositAmount: 216384
+                },
+                uidCards: [
+                    { uid: "3719675", level: 1, depositAmount: 1000, betAmount: 1733, commission: 13.79, time: "2025-05-15" },
+                    { uid: "379529", level: 1, depositAmount: 3100, betAmount: 4730, commission: 29.45, time: "2025-05-15" },
+                    { uid: "371693", level: 1, depositAmount: 1767, betAmount: 2895, commission: 24.73, time: "2025-05-15" },
+                    { uid: "379351", level: 1, depositAmount: 7400, betAmount: 12637, commission: 28.93, time: "2025-05-15" },
+                    { uid: "374529", level: 1, depositAmount: 10440, betAmount: 31648, commission: 26.72, time: "2025-05-15" },
+                    { uid: "374193", level: 2, depositAmount: 2500, betAmount: 4728, commission: 21.35, time: "2025-05-15" },
+                    { uid: "375942", level: 2, depositAmount: 423, betAmount: 736, commission: 10.36, time: "2025-05-15" },
+                    { uid: "369361", level: 2, depositAmount: 1375, betAmount: 2136, commission: 14.89, time: "2025-05-15" }
+                ]
             }
         };
 
@@ -1168,12 +1203,13 @@
                 firstDepositAmount: 0
             };
             
-            document.getElementById('depositNumber').textContent = tierData.depositNumber;
-            document.getElementById('depositAmount').textContent = tierData.depositAmount;
-            document.getElementById('numBettors').textContent = tierData.numBettors;
-            document.getElementById('totalBet').textContent = tierData.totalBet;
-            document.getElementById('numFirstDeposit').textContent = tierData.numFirstDeposit;
-            document.getElementById('firstDepositAmount').textContent = tierData.firstDepositAmount;
+            // Format numbers with commas
+            document.getElementById('depositNumber').textContent = tierData.depositNumber.toLocaleString();
+            document.getElementById('depositAmount').textContent = tierData.depositAmount.toLocaleString();
+            document.getElementById('numBettors').textContent = tierData.numBettors.toLocaleString();
+            document.getElementById('totalBet').textContent = tierData.totalBet.toLocaleString();
+            document.getElementById('numFirstDeposit').textContent = tierData.numFirstDeposit.toLocaleString();
+            document.getElementById('firstDepositAmount').textContent = tierData.firstDepositAmount.toLocaleString();
             
             // UID cards are at the date level, not the tier level
             updateUIDCards(data.uidCards || []);
@@ -1200,15 +1236,15 @@
                             </div>
                             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                                 <span style="color: #666;">Deposit amount</span>
-                                <span style="color: #e04a2a;">${card.depositAmount}</span>
+                                <span style="color: #ff5733;">${card.depositAmount}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                                 <span style="color: #666;">Bet amount</span>
-                                <span style="color: #e04a2a;">${card.betAmount}</span>
+                                <span style="color: #ff5733;">${card.betAmount}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                                 <span style="color: #666;">Commission</span>
-                                <span style="color: #e04a2a;">${card.commission}</span>
+                                <span style="color: #ff5733;">${card.commission}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between;">
                                 <span style="color: #666;">Time</span>
