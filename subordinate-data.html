@@ -372,7 +372,7 @@
     </div>
     <script>
         // --- Date Picker Logic ---
-        let pickerState = { year: 2025, month: 8, day: 13 };
+        let pickerState = { year: 2025, month: 7, day: 13 };
 
         const openDateModal = document.getElementById('openDateModal');
         const dateModalOverlay = document.getElementById('dateModalOverlay');
@@ -621,7 +621,7 @@
             col.addEventListener('click', e => {
                 if (e.target.classList.contains('picker-item') && !e.target.classList.contains('pad')) {
                     const newValue = parseInt(e.target.dataset.value);
-                    const maxDate = new Date(2025 08 13); // June 23, 2025
+                    const maxDate = new Date(2025, 7, 13); // June 23, 2025
                     
                     let isValid = true;
                     // Check if selection would exceed max date
