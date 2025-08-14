@@ -658,7 +658,7 @@
                     });
                     
                     const newValue = parseInt(closest.dataset.value);
-                    const maxDate = new Date(2025, 5, 23); // June 23, 2025
+                    const maxDate = new Date(2025, 7, 23); // June 23, 2025
                     
                     let isValid = true;
                     // Check if scroll would exceed max date
@@ -982,8 +982,8 @@
                     alert('Cannot select future dates');
                     // Reset to today's date
                     document.querySelector('[name="year"]').value = '2025';
-                    document.querySelector('[name="month"]').value = '5';
-                    document.querySelector('[name="day"]').value = '20';
+                    document.querySelector('[name="month"]').value = '8';
+                    document.querySelector('[name="day"]').value = '13';
                     e.preventDefault();
                     return false;
                 }
@@ -992,8 +992,8 @@
 
         // Additionally, set max values for the date inputs
         document.querySelector('[name="year"]').max = '2025';
-        document.querySelector('[name="month"]').max = '6';
-        document.querySelector('[name="day"]').max = '23';
+        document.querySelector('[name="month"]').max = '8';
+        document.querySelector('[name="day"]').max = '13';
     </script>
 </body>
 </html>
